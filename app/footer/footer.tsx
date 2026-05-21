@@ -1,171 +1,189 @@
-'use client'
 import React from 'react'
 
 const contacts = [
   {
     icon: '↗',
     label: 'GITHUB',
-    value: 'https://github.com/Junaid-Dawar-88',
+    value: 'github.com/Junaid-Dawar-88',
     href: 'https://github.com/Junaid-Dawar-88',
   },
   {
     icon: 'in',
     label: 'LINKEDIN',
     value: 'linkedin.com/in/junaidiqbal',
-    href: 'https://linkedin.com/in/junaidiqbal',
+    href: 'https://www.linkedin.com/in/junaid-iqbal-854813384/',
   },
   {
     icon: '✉',
     label: 'EMAIL',
-    value: 'junaidiqbal.dev88@email.com',
-    href: 'mailto:junaidiqbal.dev88@email.com',
-  }
+    value: 'junaidiqbal.dev88@gmail.com',
+    href: 'mailto:junaidiqbal.dev88@gmail.com',
+  },
+  {
+    icon: '⌾',
+    label: 'WHATSAPP',
+    value: '+92 331 5995496',
+    href: 'https://wa.me/923315995496',
+  },
 ]
+
+const monoFont = "'Courier New', monospace"
+
+const ContactCard = ({ item }: { item: (typeof contacts)[number] }) => {
+  const external = !item.href.startsWith('mailto:')
+
+  return (
+    <a
+      href={item.href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="reveal group relative flex items-center gap-4 overflow-hidden border p-4 no-underline transition duration-300 hover:-translate-y-1"
+      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-alt)' }}
+    >
+      {/* Accent bar — slides in on hover */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-0.75 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
+        style={{ backgroundColor: 'var(--accent)' }}
+      />
+
+      {/* Icon tile */}
+      <span
+        className="flex h-11 w-11 shrink-0 items-center justify-center text-sm font-bold transition-colors duration-300 group-hover:bg-(--accent) group-hover:text-white"
+        style={{
+          backgroundColor: 'var(--bg-soft)',
+          color: 'var(--text-muted)',
+          fontFamily: monoFont,
+          borderRadius: '3px',
+        }}
+      >
+        {item.icon}
+      </span>
+
+      {/* Label + value */}
+      <span className="min-w-0 flex-1">
+        <span
+          className="mb-1 block text-xs uppercase"
+          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.15em' }}
+        >
+          {item.label}
+        </span>
+        <span
+          className="block truncate text-sm"
+          style={{ color: 'var(--text)', fontFamily: 'Georgia, serif' }}
+        >
+          {item.value}
+        </span>
+      </span>
+
+      {/* Hover arrow */}
+      <span
+        aria-hidden="true"
+        className="shrink-0 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+        style={{ color: 'var(--text-faint)', fontFamily: monoFont }}
+      >
+        →
+      </span>
+    </a>
+  )
+}
 
 const Footer = () => {
   return (
     <footer
-      className="w-full"
-      style={{ backgroundColor: '#1a1612', fontFamily: 'Georgia, serif' }}
+      className="w-full border-t"
+      style={{ backgroundColor: 'var(--bg)', borderColor: 'var(--border)', fontFamily: 'Georgia, serif' }}
     >
-      <div className="flex flex-col md:flex-row min-h-[560px]">
+      <div className="flex min-h-140 flex-col md:flex-row">
 
+        {/* CTA panel */}
         <div
-          className="flex-1 flex flex-col justify-center px-8 sm:px-12 md:px-16 py-16 md:py-20"
-          style={{ borderRight: '1px solid #2e2a24' }}
+          className="reveal flex flex-1 flex-col justify-center border-b px-8 py-16 sm:px-12 md:border-b-0 md:border-r md:px-16 md:py-20"
+          style={{ borderColor: 'var(--border)' }}
         >
           <p
-            className="text-xs tracking-widest mb-6"
-            style={{
-              color: '#c0392b',
-              fontFamily: "'Courier New', monospace",
-              letterSpacing: '0.2em',
-            }}
+            className="mb-6 text-xs"
+            style={{ color: 'var(--accent)', fontFamily: monoFont, letterSpacing: '0.2em' }}
           >
-            GET IN TOUCH
+            04 — GET IN TOUCH
           </p>
 
           <h2
-            className="font-bold leading-none mb-8"
+            className="mb-8 font-bold leading-none text-balance"
             style={{ fontSize: 'clamp(44px, 7vw, 88px)' }}
           >
-            <span style={{ color: '#f5f0e8', display: 'block' }}>Let build</span>
-            <span style={{ color: '#f5f0e8', display: 'block' }}>something</span>
-            <span
-              style={{
-                color: '#c8922a',
-                fontStyle: 'italic',
-                display: 'block',
-              }}
-            >
+            <span style={{ color: 'var(--text)', display: 'block' }}>Let&apos;s build</span>
+            <span style={{ color: 'var(--text)', display: 'block' }}>something</span>
+            <span style={{ color: 'var(--accent)', fontStyle: 'italic', display: 'block' }}>
               great.
             </span>
           </h2>
 
           <p
-            className="text-sm leading-relaxed mb-10"
-            style={{ color: '#888', maxWidth: '380px', fontFamily: 'Georgia, serif' }}
+            className="mb-10 text-sm leading-relaxed text-pretty"
+            style={{ color: 'var(--text-muted)', maxWidth: '380px' }}
           >
             I am open to full-time roles, freelance projects, or just a
             conversation about web development. Do not hesitate to reach out.
           </p>
 
-          <a
-            href="mailto:junaidiqbal@email.com"
-            className="text-sm italic inline-block"
-            style={{
-              color: '#f5f0e8',
-              textDecoration: 'underline',
-              textUnderlineOffset: '4px',
-              fontFamily: 'Georgia, serif',
-              letterSpacing: '0.01em',
-            }}
-          >
-            junaidiqbal.dev88@email.com →
-          </a>
-        </div>
-
-        <div
-          className="flex flex-col justify-center gap-3 px-8 sm:px-12 md:px-16 py-12 md:py-20"
-          style={{ minWidth: 'min(100%, 480px)', maxWidth: '520px' }}
-        >
-          {contacts.map((item) => (
+          {/* Availability + primary CTA */}
+          <div className="flex flex-wrap items-center gap-4">
             <a
-              key={item.label}
-              href={item.href}
-              className="flex items-center gap-5 border px-5 py-5 transition-colors group"
+              href="mailto:junaidiqbal.dev88@gmail.com"
+              className="group inline-flex items-center gap-3 px-6 py-3.5 text-xs font-bold tracking-widest no-underline transition-opacity duration-300 hover:opacity-85"
               style={{
-                borderColor: '#2e2a24',
-                backgroundColor: '#211e18',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = '#c0392b'
-                ;(e.currentTarget as HTMLElement).style.backgroundColor = '#261f18'
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = '#2e2a24'
-                ;(e.currentTarget as HTMLElement).style.backgroundColor = '#211e18'
+                backgroundColor: 'var(--accent)',
+                color: '#fff',
+                fontFamily: monoFont,
+                letterSpacing: '0.12em',
               }}
             >
-              <div
-                className="flex items-center justify-center text-sm font-bold shrink-0"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  backgroundColor: '#2e2a24',
-                  color: '#888',
-                  fontFamily: "'Courier New', monospace",
-                  borderRadius: '2px',
-                }}
-              >
-                {item.icon}
-              </div>
-
-              <div>
-                <p
-                  className="text-xs tracking-widest mb-1"
-                  style={{
-                    color: '#666',
-                    fontFamily: "'Courier New', monospace",
-                    letterSpacing: '0.15em',
-                  }}
-                >
-                  {item.label}
-                </p>
-                <p
-                  className="text-sm"
-                  style={{ color: '#f5f0e8', fontFamily: 'Georgia, serif' }}
-                >
-                  {item.value}
-                </p>
-              </div>
+              SEND A MESSAGE
+              <span className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none">
+                →
+              </span>
             </a>
+            <span
+              className="inline-flex items-center gap-2 text-xs"
+              style={{ color: 'var(--text-muted)', fontFamily: monoFont, letterSpacing: '0.08em' }}
+            >
+              <span className="h-2 w-2 rounded-full bg-[#27ae60]" />
+              Available for work
+            </span>
+          </div>
+        </div>
+
+        {/* Contact channels */}
+        <div
+          className="flex flex-col justify-center gap-3 px-8 py-12 sm:px-12 md:px-16 md:py-20"
+          style={{ minWidth: 'min(100%, 480px)', maxWidth: '520px' }}
+        >
+          <p
+            className="reveal mb-2 text-xs uppercase"
+            style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.18em' }}
+          >
+            Direct channels
+          </p>
+          {contacts.map((item) => (
+            <ContactCard key={item.label} item={item} />
           ))}
         </div>
       </div>
 
+      {/* Bottom bar */}
       <div
-        className="flex flex-col sm:flex-row items-center justify-between px-8 sm:px-12 md:px-16 py-5 gap-2"
-        style={{ borderTop: '1px solid #2e2a24' }}
+        className="flex flex-col items-center justify-between gap-2 border-t px-8 py-5 sm:flex-row sm:px-12 md:px-16"
+        style={{ borderColor: 'var(--border)' }}
       >
         <p
-          className="text-xs text-center sm:text-left"
-          style={{
-            color: '#444',
-            fontFamily: "'Courier New', monospace",
-            letterSpacing: '0.1em',
-          }}
+          className="text-center text-xs sm:text-left"
+          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.1em' }}
         >
           © 2025 Junaid Iqbal — All rights reserved
         </p>
         <p
-          className="text-xs text-center sm:text-right"
-          style={{
-            color: '#444',
-            fontFamily: "'Courier New', monospace",
-            letterSpacing: '0.1em',
-          }}
+          className="text-center text-xs sm:text-right"
+          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.1em' }}
         >
           Designed &amp; Built with passion
         </p>

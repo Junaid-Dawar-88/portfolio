@@ -3,219 +3,187 @@ import React from 'react'
 const skills = [
   {
     category: 'Frontend',
+    wide: true,
     technologies: [
       { name: 'HTML5', filled: true },
       { name: 'CSS3', filled: true },
       { name: 'JavaScript', filled: true },
+      { name: 'TypeScript', filled: true },
       { name: 'React.js', filled: true },
     ],
-    level: 'Expert',
-    levelPercent: 92,
-    useCase: 'UI components, SPAs, responsive design',
   },
   {
     category: 'Framework',
+    wide: false,
     technologies: [
       { name: 'Next.js', filled: true },
-      { name: 'App Router', filled: false },
+      { name: 'App Router', filled: true },
       { name: 'SSR / SSG', filled: false },
     ],
-    level: 'Advanced',
-    levelPercent: 78,
-    useCase: 'Full-stack apps, SEO, performance',
   },
   {
     category: 'Backend',
+    wide: false,
     technologies: [
       { name: 'Node.js', filled: true },
       { name: 'REST APIs', filled: false },
-      { name: 'MongoDB', filled: false },
+      { name: 'Better Auth', filled: false },
     ],
-    level: 'Advanced',
-    levelPercent: 78,
-    useCase: 'APIs, server logic, database ops',
+  },
+  {
+    category: 'Database',
+    wide: true,
+    technologies: [
+      { name: 'PostgreSQL', filled: true },
+      { name: 'Prisma ORM', filled: true },
+      { name: 'MongoDB', filled: false },
+      { name: 'SQL', filled: false },
+      { name: 'SQLite', filled: false },
+    ],
+  },
+  {
+    category: 'Desktop',
+    wide: false,
+    technologies: [
+      { name: 'Tauri', filled: true },
+    ],
+  },
+  {
+    category: 'AI',
+    wide: false,
+    technologies: [
+      { name: 'Prompt Engineering', filled: true },
+      { name: 'AI Integration', filled: false },
+    ],
   },
   {
     category: 'Styling',
+    wide: false,
     technologies: [
       { name: 'Tailwind CSS', filled: true },
       { name: 'Bootstrap', filled: true },
     ],
-    level: 'Expert',
-    levelPercent: 92,
-    useCase: 'Utility-first styling, rapid UI',
   },
   {
     category: 'Tools',
+    wide: false,
     technologies: [
-      { name: 'Git', filled: false },
-      { name: 'GitHub', filled: false },
+      { name: 'Git', filled: true },
+      { name: 'GitHub', filled: true },
       { name: 'Vercel', filled: false },
       { name: 'VS Code', filled: false },
+      { name: 'Bun', filled: true },
     ],
-    level: 'Advanced',
-    levelPercent: 78,
-    useCase: 'Version control, deployment, dev workflow',
   },
 ]
 
-const LevelBar = ({ percent, label }: { percent: number; label: string }) => (
-  <div className="flex items-center gap-3">
-    <div className="relative w-20 sm:w-28 h-px bg-gray-300">
-      <div
-        className="absolute top-0 left-0 h-px bg-red-700"
-        style={{ width: `${percent}%` }}
-      />
-    </div>
-    <span
-      className="text-xs italic"
-      style={{ color: '#aaa', fontFamily: 'Georgia, serif', letterSpacing: '0.03em' }}
-    >
-      {label}
-    </span>
-  </div>
+const monoFont = "'Courier New', monospace"
+
+const TechBadge = ({ name, filled }: { name: string; filled: boolean }) => (
+  <span
+    className="border px-3 py-1 text-xs"
+    style={{
+      fontFamily: monoFont,
+      letterSpacing: '0.03em',
+      backgroundColor: filled ? 'var(--surface-invert)' : 'transparent',
+      color: filled ? 'var(--on-invert)' : 'var(--text-body)',
+      borderColor: filled ? 'var(--surface-invert)' : 'var(--border)',
+      fontWeight: filled ? 600 : 400,
+    }}
+  >
+    {name}
+  </span>
 )
 
 const Skills = () => {
   return (
     <div
-      className="min-h-screen px-4 sm:px-8 md:px-16 py-10 sm:py-16"
-      style={{ backgroundColor: '#f5f0e8', fontFamily: 'Georgia, serif' }}
+      className="min-h-screen px-4 py-10 sm:px-8 sm:py-16 md:px-16"
+      style={{ backgroundColor: 'var(--bg)', fontFamily: 'Georgia, serif' }}
     >
-      <div className="flex items-start sm:items-center justify-between mb-2 gap-4">
+      <div className="mb-2 flex items-start justify-between gap-4 sm:items-center">
         <div className="flex items-center gap-3 sm:gap-5">
           <span
-            className="text-sm hidden sm:inline"
-            style={{ color: '#aaa', fontFamily: "'Courier New', monospace", letterSpacing: '0.05em' }}
+            className="hidden text-sm sm:inline"
+            style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.05em' }}
           >
             02
           </span>
           <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold italic"
-            style={{ color: '#1a1a1a', letterSpacing: '-0.01em' }}
+            className="text-2xl font-bold italic sm:text-3xl md:text-4xl"
+            style={{ color: 'var(--text)', letterSpacing: '-0.01em' }}
           >
             Skills &amp; Technologies
           </h2>
         </div>
         <div
-          className="border px-2 sm:px-3 py-1 text-xs tracking-widest shrink-0"
-          style={{ borderColor: '#1a1a1a', fontFamily: "'Courier New', monospace", color: '#1a1a1a' }}
+          className="shrink-0 border px-2 py-1 text-xs tracking-widest sm:px-3"
+          style={{ borderColor: 'var(--text)', fontFamily: monoFont, color: 'var(--text)' }}
         >
           STACK
         </div>
       </div>
-      <div className="w-full h-px mb-8 sm:mb-12" style={{ backgroundColor: '#1a1a1a' }} />
-      <div className="hidden md:block border" style={{ borderColor: '#d4c9b8' }}>
-        <div
-          className="grid border-b"
-          style={{
-            gridTemplateColumns: '160px 1fr 190px 1fr',
-            borderColor: '#d4c9b8',
-            backgroundColor: '#ede8de',
-          }}
+      <div className="mb-8 h-px w-full sm:mb-12" style={{ backgroundColor: 'var(--text)' }} />
+
+      {/* Bento grid — asymmetric tiles, one accent anchor */}
+      <div className="grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+        {/* Accent anchor tile */}
+        <article
+          className="reveal flex flex-col justify-center border p-6 sm:col-span-2 sm:p-7"
+          style={{ backgroundColor: 'var(--accent)', borderColor: 'var(--accent)' }}
         >
-          {['Category', 'Technologies', 'Level', 'Use Case'].map((h) => (
-            <div
-              key={h}
-              className="px-6 py-4 text-xs uppercase"
-              style={{ fontFamily: "'Courier New', monospace", color: '#888', letterSpacing: '0.15em' }}
+          <p
+            className="mb-3 text-xs uppercase"
+            style={{ color: 'rgba(255,255,255,0.72)', fontFamily: monoFont, letterSpacing: '0.2em' }}
+          >
+            The Toolkit
+          </p>
+          <p className="text-lg font-bold leading-snug text-white sm:text-xl">
+            From pixel-perfect React interfaces to type-safe APIs and
+            cross-platform desktop apps.
+          </p>
+        </article>
+
+        {/* Category tiles */}
+        {skills.map((skill, idx) => (
+          <article
+            key={skill.category}
+            className={`skill-tile reveal group relative flex flex-col overflow-hidden border p-6 ${
+              skill.wide ? 'sm:col-span-2' : ''
+            }`}
+            style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg)' }}
+          >
+            {/* Faint index watermark */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-1 -top-3 select-none text-6xl font-black italic leading-none"
+              style={{ color: 'var(--text)', opacity: 0.05, fontFamily: 'Georgia, serif' }}
             >
-              {h}
-            </div>
-          ))}
-        </div>
+              {String(idx + 1).padStart(2, '0')}
+            </span>
 
-        {skills.map((skill, idx) => (
-          <div
-            key={skill.category}
-            className="grid border-b"
-            style={{
-              gridTemplateColumns: '160px 1fr 190px 1fr',
-              borderColor: '#d4c9b8',
-              backgroundColor: idx % 2 === 0 ? '#f5f0e8' : '#f0ebe1',
-            }}
-          >
-            <div className="px-6 py-6 font-bold text-sm flex items-center" style={{ color: '#1a1a1a' }}>
-              {skill.category}
-            </div>
-            <div className="px-6 py-6 flex flex-wrap items-center gap-2">
-              {skill.technologies.map((tech) => (
-                <span
-                  key={tech.name}
-                  className="px-3 py-1 text-xs border"
-                  style={{
-                    fontFamily: "'Courier New', monospace",
-                    letterSpacing: '0.05em',
-                    backgroundColor: tech.filled ? '#1a1a1a' : 'transparent',
-                    color: tech.filled ? '#f5f0e8' : '#1a1a1a',
-                    borderColor: '#1a1a1a',
-                    fontWeight: tech.filled ? '600' : '400',
-                  }}
-                >
-                  {tech.name}
-                </span>
-              ))}
-            </div>
-            <div className="px-6 py-6 flex items-center">
-              <LevelBar percent={skill.levelPercent} label={skill.level} />
-            </div>
-            <div className="px-6 py-6 text-sm flex items-center" style={{ color: '#333', lineHeight: '1.5' }}>
-              {skill.useCase}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex flex-col gap-4 md:hidden">
-        {skills.map((skill, idx) => (
-          <div
-            key={skill.category}
-            className="border p-5"
-            style={{
-              borderColor: '#d4c9b8',
-              backgroundColor: idx % 2 === 0 ? '#f5f0e8' : '#f0ebe1',
-            }}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-bold text-base" style={{ color: '#1a1a1a', fontFamily: 'Georgia, serif' }}>
-                {skill.category}
-              </span>
-              <LevelBar percent={skill.levelPercent} label={skill.level} />
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {skill.technologies.map((tech) => (
-                <span
-                  key={tech.name}
-                  className="px-2 py-1 text-xs border"
-                  style={{
-                    fontFamily: "'Courier New', monospace",
-                    letterSpacing: '0.05em',
-                    backgroundColor: tech.filled ? '#1a1a1a' : 'transparent',
-                    color: tech.filled ? '#f5f0e8' : '#1a1a1a',
-                    borderColor: '#1a1a1a',
-                    fontWeight: tech.filled ? '600' : '400',
-                  }}
-                >
-                  {tech.name}
-                </span>
-              ))}
-            </div>
-
-            <div className="w-full h-px mb-3" style={{ backgroundColor: '#d4c9b8' }} />
-
-            <div className="flex items-start gap-2">
+            {/* Category header */}
+            <div className="mb-4 flex items-center gap-2.5">
               <span
-                className="text-xs uppercase tracking-widest shrink-0 mt-0.5"
-                style={{ color: '#aaa', fontFamily: "'Courier New', monospace" }}
+                className="h-2 w-2 rounded-full transition-transform duration-300 group-hover:scale-150 motion-reduce:transition-none"
+                style={{ backgroundColor: 'var(--accent)' }}
+              />
+              <h3
+                className="text-sm font-bold uppercase"
+                style={{ color: 'var(--text)', fontFamily: monoFont, letterSpacing: '0.16em' }}
               >
-                Use Case
-              </span>
-              <span className="text-xs" style={{ color: '#555', fontFamily: 'Georgia, serif', lineHeight: '1.6' }}>
-                {skill.useCase}
-              </span>
+                {skill.category}
+              </h3>
             </div>
-          </div>
+
+            {/* Technology badges */}
+            <div className="flex flex-wrap gap-2">
+              {skill.technologies.map((tech) => (
+                <TechBadge key={tech.name} name={tech.name} filled={tech.filled} />
+              ))}
+            </div>
+          </article>
         ))}
       </div>
     </div>

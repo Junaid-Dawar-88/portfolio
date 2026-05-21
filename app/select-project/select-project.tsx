@@ -62,139 +62,143 @@ const projects = [
   },
 ]
 
+const monoFont = "'Courier New', monospace"
+
+const ProjectCard = ({ project }: { project: (typeof projects)[number] }) => {
+  return (
+    <article
+      className="reveal group relative flex flex-col overflow-hidden border p-6 transition duration-300 hover:-translate-y-1 sm:p-8"
+      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg)' }}
+    >
+      {/* Accent bar — slides in on hover */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-0.75 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
+        style={{ backgroundColor: 'var(--accent)' }}
+      />
+
+      {/* Oversized roman-numeral watermark */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-2 -top-4 select-none text-7xl font-black italic leading-none sm:text-8xl"
+        style={{ color: 'var(--text)', opacity: 0.06, fontFamily: 'Georgia, serif' }}
+      >
+        {project.roman}
+      </span>
+
+      {/* Category tag */}
+      <p
+        className="mb-3 text-xs"
+        style={{ color: 'var(--accent)', fontFamily: monoFont, letterSpacing: '0.12em' }}
+      >
+        {project.tag}
+      </p>
+
+      {/* Title */}
+      <h3
+        className="mb-3 text-2xl font-bold italic text-balance"
+        style={{ color: 'var(--text)', fontFamily: 'Georgia, serif', letterSpacing: '-0.01em' }}
+      >
+        {project.title}
+      </h3>
+
+      {/* Description */}
+      <p
+        className="mb-6 text-sm leading-relaxed text-pretty"
+        style={{ color: 'var(--text-body)', fontFamily: 'Georgia, serif' }}
+      >
+        {project.description}
+      </p>
+
+      {/* Tech tags */}
+      <div className="mb-7 flex flex-wrap gap-2">
+        {project.techs.map((tech) => (
+          <span
+            key={tech.name}
+            className="border px-2.5 py-1 text-xs"
+            style={{
+              fontFamily: monoFont,
+              letterSpacing: '0.05em',
+              backgroundColor: tech.filled ? 'var(--surface-invert)' : 'transparent',
+              color: tech.filled ? 'var(--on-invert)' : 'var(--text)',
+              borderColor: tech.filled ? 'var(--surface-invert)' : 'var(--border)',
+              fontWeight: tech.filled ? 600 : 400,
+            }}
+          >
+            {tech.name}
+          </span>
+        ))}
+      </div>
+
+      {/* Actions — pinned to the bottom so every card aligns */}
+      <div className="mt-auto flex flex-wrap gap-3 border-t pt-5" style={{ borderColor: 'var(--border-soft)' }}>
+        <a
+          href={project.liveDemo}
+          className="flex-1 px-5 py-2.5 text-center text-xs font-bold tracking-widest transition-opacity duration-300 hover:opacity-80"
+          style={{
+            backgroundColor: 'var(--accent)',
+            color: '#fff',
+            fontFamily: monoFont,
+            letterSpacing: '0.12em',
+          }}
+        >
+          LIVE DEMO
+        </a>
+        <a
+          href={project.github}
+          className="flex-1 border px-5 py-2.5 text-center text-xs font-bold tracking-widest transition-colors duration-300 hover:bg-(--surface-invert) hover:text-(--on-invert)"
+          style={{
+            borderColor: 'var(--text)',
+            color: 'var(--text)',
+            fontFamily: monoFont,
+            letterSpacing: '0.12em',
+          }}
+        >
+          GITHUB
+        </a>
+      </div>
+    </article>
+  )
+}
+
 const SelectProject = () => {
   return (
     <div
-      className="min-h-screen px-4 sm:px-8 md:px-16 py-10 sm:py-16"
-      style={{ backgroundColor: '#f5f0e8', fontFamily: 'Georgia, serif' }}
+      className="min-h-screen px-4 py-10 sm:px-8 sm:py-16 md:px-16"
+      style={{ backgroundColor: 'var(--bg)', fontFamily: 'Georgia, serif' }}
     >
-      <div className="flex items-center justify-between mb-2 gap-4">
+      <div className="reveal mb-2 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 sm:gap-5">
           <span
-            className="text-sm hidden sm:inline"
-            style={{ color: '#aaa', fontFamily: "'Courier New', monospace", letterSpacing: '0.05em' }}
+            className="hidden text-sm sm:inline"
+            style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.05em' }}
           >
             03
           </span>
           <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold italic"
-            style={{ color: '#1a1a1a', letterSpacing: '-0.01em' }}
+            className="text-2xl font-bold italic sm:text-3xl md:text-4xl"
+            style={{ color: 'var(--text)', letterSpacing: '-0.01em' }}
           >
             Selected Projects
           </h2>
         </div>
         <div
-          className="border px-2 sm:px-3 py-1 text-xs tracking-widest shrink-0"
-          style={{ borderColor: '#1a1a1a', fontFamily: "'Courier New', monospace", color: '#1a1a1a' }}
+          className="shrink-0 border px-2 py-1 text-xs tracking-widest sm:px-3"
+          style={{ borderColor: 'var(--text)', fontFamily: monoFont, color: 'var(--text)' }}
         >
           WORK
         </div>
       </div>
 
-      <div className="w-full h-px mb-8 sm:mb-12" style={{ backgroundColor: '#1a1a1a' }} />
+      <div className="mb-8 h-px w-full sm:mb-12" style={{ backgroundColor: 'var(--text)' }} />
 
-      <div className="flex flex-col" style={{ border: '1px solid #d4c9b8' }}>
-        {projects.map((project, idx) => (
-          <div
-            key={project.roman}
-            className="flex flex-col sm:flex-row border-b last:border-b-0"
-            style={{ borderColor: '#d4c9b8', backgroundColor: idx % 2 === 0 ? '#f5f0e8' : '#f0ebe1' }}
-          >
-            {/* Roman Numeral */}
-            <div
-              className="flex items-center justify-center sm:justify-start px-4 sm:px-8 pt-5 sm:pt-0"
-              style={{ minWidth: '72px' }}
-            >
-              <span
-                className="text-xl sm:text-2xl"
-                style={{
-                  color: '#c8bfb0',
-                  fontFamily: 'Georgia, serif',
-                  fontStyle: 'italic',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                {project.roman}
-              </span>
-            </div>
-
-            <div className="flex-1 px-5 sm:px-8 py-6 border-t sm:border-t-0 sm:border-l" style={{ borderColor: '#d4c9b8' }}>
-
-              <p
-                className="text-xs mb-2 tracking-widest"
-                style={{ color: '#c0392b', fontFamily: "'Courier New', monospace", letterSpacing: '0.12em' }}
-              >
-                {project.tag}
-              </p>
-
-              <h3
-                className="text-xl sm:text-2xl font-bold mb-3"
-                style={{ color: '#1a1a1a', fontFamily: 'Georgia, serif' }}
-              >
-                {project.title}
-              </h3>
-
-              <p
-                className="text-sm mb-5 leading-relaxed"
-                style={{ color: '#444', fontFamily: 'Georgia, serif', maxWidth: '640px' }}
-              >
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {project.techs.map((tech) => (
-                  <span
-                    key={tech.name}
-                    className="px-3 py-1 text-xs border"
-                    style={{
-                      fontFamily: "'Courier New', monospace",
-                      letterSpacing: '0.05em',
-                      backgroundColor: tech.filled ? '#1a1a1a' : 'transparent',
-                      color: tech.filled ? '#f5f0e8' : '#1a1a1a',
-                      borderColor: '#1a1a1a',
-                      fontWeight: tech.filled ? '600' : '400',
-                    }}
-                  >
-                    {tech.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div
-              className="flex flex-row sm:flex-col justify-center items-center gap-3 px-5 sm:px-8 py-5 sm:py-6 border-t sm:border-t-0 sm:border-l"
-              style={{ borderColor: '#d4c9b8', minWidth: '150px' }}
-            >
-              <a
-                href={project.liveDemo}
-                className="w-full text-center px-5 py-2 text-xs tracking-widest font-bold transition-opacity hover:opacity-80"
-                style={{
-                  backgroundColor: '#c0392b',
-                  color: '#fff',
-                  fontFamily: "'Courier New', monospace",
-                  letterSpacing: '0.12em',
-                  textDecoration: 'none',
-                  display: 'block',
-                }}
-              >
-                LIVE DEMO
-              </a>
-              <a
-                href={project.github}
-                className="w-full text-center px-5 py-2 text-xs tracking-widest font-bold border transition-colors hover:bg-gray-100"
-                style={{
-                  borderColor: '#1a1a1a',
-                  color: '#1a1a1a',
-                  fontFamily: "'Courier New', monospace",
-                  letterSpacing: '0.12em',
-                  textDecoration: 'none',
-                  display: 'block',
-                }}
-              >
-                GITHUB
-              </a>
-            </div>
-          </div>
+      {/* Responsive card grid */}
+      <div
+        className="grid gap-4 sm:gap-5"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 22rem), 1fr))' }}
+      >
+        {projects.map((project) => (
+          <ProjectCard key={project.roman} project={project} />
         ))}
       </div>
     </div>

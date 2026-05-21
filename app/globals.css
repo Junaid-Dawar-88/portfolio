@@ -1,26 +1,176 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light theme (default) */
+  color-scheme: light;
+  --bg: #f5f0e8;
+  --bg-alt: #f0ebe1;
+  --bg-soft: #ede8de;
+  --text: #1a1a1a;
+  --text-body: #333333;
+  --text-muted: #5a5a5a;
+  --text-faint: #8a8a8a;
+  --border: #d4c9b8;
+  --border-soft: #e8e2d8;
+  --surface-invert: #1a1a1a;
+  --on-invert: #f5f0e8;
+  --accent: #c0392b;
+  --accent-2: #c4440a;
+  /* Translucent surface for the glass header (re-resolves per theme) */
+  --bg-glass: color-mix(in srgb, var(--bg) 82%, transparent);
+}
+
+.dark {
+  /* Dark theme (warm charcoal — keeps the editorial feel) */
+  color-scheme: dark;
+  --bg: #16120d;
+  --bg-alt: #1e1810;
+  --bg-soft: #221c13;
+  --text: #f0e9da;
+  --text-body: #c8bfac;
+  --text-muted: #9a9080;
+  --text-faint: #726955;
+  --border: #342d22;
+  --border-soft: #2a2419;
+  --surface-invert: #f0e9da;
+  --on-invert: #16120d;
+  --accent: #d4513c;
+  --accent-2: #e0651f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Smooth theme transition across the whole project */
+html,
+body,
+header,
+footer,
+aside,
+main,
+section,
+article,
+div,
+span,
+a,
+p,
+h1,
+h2,
+h3 {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ============================================================
+   Motion — entrance & scroll-reveal animations
+   Animates only compositor-friendly properties (opacity, translate).
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes anim-rise {
+    from {
+      opacity: 0;
+      translate: 0 1.75rem;
+    }
+  }
+
+  @keyframes anim-rise-sm {
+    from {
+      opacity: 0;
+      translate: 0 0.75rem;
+    }
+  }
+
+  @keyframes anim-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Entrance animations — run once on page load */
+  .anim-rise {
+    animation: anim-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .anim-rise-sm {
+    animation: anim-rise-sm 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .anim-fade {
+    animation: anim-fade 0.9s ease backwards;
+  }
+
+  /* Stagger delays — pair with an entrance class */
+  .anim-d1 { animation-delay: 0.08s; }
+  .anim-d2 { animation-delay: 0.16s; }
+  .anim-d3 { animation-delay: 0.24s; }
+  .anim-d4 { animation-delay: 0.32s; }
+  .anim-d5 { animation-delay: 0.40s; }
+  .anim-d6 { animation-delay: 0.48s; }
+
+  /* Scroll-reveal — progressive enhancement. Browsers without
+     scroll-driven animation support simply show content as-is. */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .reveal {
+      animation: anim-rise auto linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 38%;
+    }
+
+    .reveal-fade {
+      animation: anim-fade auto linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+/* ============================================================
+   Skill bento tiles — lift + accent glow on hover
+   ============================================================ */
+.skill-tile {
+  translate: 0;
+  transition: translate 0.28s ease, box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.skill-tile:hover {
+  border-color: var(--accent);
+  box-shadow: 0 18px 40px -14px color-mix(in oklab, var(--accent) 45%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skill-tile:hover {
+    translate: 0 -5px;
+  }
+}
+
+/* Header scroll-progress bar — tracks the document scroll.
+   User-driven (not autonomous motion); degrades to hidden when unsupported. */
+@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+  @keyframes scroll-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .scroll-progress {
+    transform-origin: left;
+    animation: scroll-progress auto linear both;
+    animation-timeline: scroll(root);
+  }
 }
