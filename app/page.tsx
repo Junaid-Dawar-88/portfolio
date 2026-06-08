@@ -11,7 +11,7 @@ const Home = () => {
     <div className="font-[Times_New_Roman,Georgia,serif] bg-[var(--bg)] min-h-screen text-[var(--text)]">
 
       <header className="anim-fade flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-center px-4 sm:px-8 lg:px-10 py-3 border-b border-[var(--border)] tracking-[0.12em] text-[10px] sm:text-[11px] uppercase text-[var(--text-muted)] font-['Courier_New',monospace] text-center sm:text-left">
-        <span>Karachi, Pakistan</span>
+        <span>Peshawar, Pakistan</span>
         <span>Vol. 1 — Full Stack Developer Portfolio</span>
         <span>Open to Opportunities</span>
       </header>
