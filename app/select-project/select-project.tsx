@@ -69,6 +69,23 @@ const projects = [
     liveDemo: 'https://school-system-ivory.vercel.app/',
     github: '#',
   },
+  {
+    roman: 'V',
+    tag: 'FULL STACK · E-COMMERCE',
+    title: 'E-Commerce Store',
+    description:
+      'A full-featured e-commerce web app with product browsing, cart management, and a smooth checkout flow. Built with a responsive, modern interface and fast, reliable performance for an intuitive online shopping experience.',
+    techs: [
+      { name: 'Next.js', filled: true },
+      { name: 'TypeScript', filled: false },
+      { name: 'tRPC', filled: false },
+      { name: 'Zod', filled: false },
+      { name: 'shadcn/ui', filled: false },
+      { name: 'PostgreSQL', filled: false },
+    ],
+    liveDemo: 'https://e-commerce-web-gamma-two.vercel.app',
+    github: '#',
+  },
 ]
 
 const monoFont = "'Courier New', monospace"

@@ -33,7 +33,7 @@ const contact = [
   { label: "Phone", value: "+92 331 5995496", href: "https://wa.me/923315995496" },
   { label: "GitHub", value: "github.com/Junaid-Dawar-88", href: GITHUB_URL },
   { label: "LinkedIn", value: "linkedin.com/in/junaid-iqbal", href: LINKEDIN_URL },
-  { label: "Location", value: "Karachi, Pakistan" },
+  { label: "Location", value: "Peshawar, KPK, Pakistan" },
 ];
 
 const skillGroups = [
@@ -80,7 +80,7 @@ const profile =
 
 const education = {
   title: "Web & Software Development",
-  place: "Karachi, Pakistan",
+  place: "Peshawar, KPK, Pakistan",
   desc: "Self-driven and course-based training in full stack JavaScript & TypeScript development, focused on React, Next.js and modern backend practices.",
 };
 
