@@ -77,10 +77,9 @@ const projects = [
       'A full-featured e-commerce web app with product browsing, cart management, and a smooth checkout flow. Built with a responsive, modern interface and fast, reliable performance for an intuitive online shopping experience.',
     techs: [
       { name: 'Next.js', filled: true },
+      { name: 'React', filled: false },
       { name: 'TypeScript', filled: false },
-      { name: 'tRPC', filled: false },
-      { name: 'Zod', filled: false },
-      { name: 'shadcn/ui', filled: false },
+      { name: 'Prisma', filled: false },
       { name: 'PostgreSQL', filled: false },
     ],
     liveDemo: 'https://e-commerce-web-gamma-two.vercel.app',

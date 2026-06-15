@@ -59,19 +59,24 @@ const stats = [
 
 const projects = [
   {
-    name: "Hostel Management SaaS",
-    stack: "Next.js · Prisma · Better Auth",
-    desc: "Multi-tenant SaaS for hostel operations with role-based authentication, type-safe data access and a clean management dashboard.",
+    name: "Digital Invoicing",
+    stack: "Next.js · TypeScript · PostgreSQL",
+    desc: "A digital invoicing web app for generating invoices, managing clients and tracking payments, with a clean interface and fast, reliable delivery.",
   },
   {
-    name: "Developer Portfolio",
+    name: "E-Commerce Store",
+    stack: "Next.js · React · TypeScript · Prisma · PostgreSQL",
+    desc: "A full-featured e-commerce app with product browsing, cart management and a smooth checkout flow, built for an intuitive online shopping experience.",
+  },
+  {
+    name: "School System Ivory",
+    stack: "Next.js · Prisma · PostgreSQL",
+    desc: "A school management system to handle students, classes and administration data, with a polished interface and a strong type-safe backend.",
+  },
+  {
+    name: "XMP Delta",
     stack: "Next.js · TypeScript · Tailwind",
-    desc: "Editorial-style personal portfolio with animated scroll reveals, a responsive skills matrix, project showcase and a downloadable CV.",
-  },
-  {
-    name: "Cross-Platform Desktop App",
-    stack: "Tauri · React · TypeScript",
-    desc: "Lightweight cross-platform desktop application built from web technologies with a fast, Rust-powered native shell.",
+    desc: "A polished marketing site built to highlight product features and drive conversions, with strong visual hierarchy and modern responsive design.",
   },
 ];
 
