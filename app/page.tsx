@@ -44,9 +44,7 @@ const Home = () => {
             </p>
 
             <p className="text-[13px] sm:text-[14px] leading-[1.7] text-[var(--text-body)]">
-              Junaid Iqbal is a full stack developer with expertise in modern
-              JavaScript frameworks and a passion for building clean, efficient
-              web applications.
+             Junaid Iqbal is a Full Stack Developer passionate about creating modern web and mobile applications. With expertise in React, Next.js, Node.js, PostgreSQL, and React Native, he focuses on building fast, scalable, and user-friendly digital experiences.
             </p>
           </div>
 
