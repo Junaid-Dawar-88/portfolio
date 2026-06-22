@@ -49,6 +49,13 @@ const skills = [
     ],
   },
   {
+    category: 'Mobile',
+    wide: false,
+    technologies: [
+      { name: 'React Native', filled: true },
+    ],
+  },
+  {
     category: 'AI',
     wide: false,
     technologies: [

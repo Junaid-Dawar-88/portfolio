@@ -112,8 +112,7 @@ const Home = () => {
 
           <div className="anim-rise anim-d2 border-l-[3px] border-[var(--accent)] pl-4 sm:pl-5 mb-8 lg:mb-12 max-w-full sm:max-w-[460px]">
             <p className="text-[16px] sm:text-[18px] italic text-[var(--text-body)] leading-[1.5] font-serif">
-              Building fast, scalable web experiences with React, Next.js &
-              Node.js
+              Full Stack Developer building modern web and mobile applications with React, Next.js, Node.js, PostgreSQL and React Native.
             </p>
           </div>
 
