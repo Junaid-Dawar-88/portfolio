@@ -1,195 +1,125 @@
-import React from 'react'
+"use client";
 
-const contacts = [
+import React from "react";
+import { motion } from "motion/react";
+import { Reveal, RevealItem } from "../components/reveal";
+import { StarMark } from "../components/lattice";
+import { ease } from "../lib/motion";
+
+const channels = [
   {
-    icon: '↗',
-    label: 'GITHUB',
-    value: 'github.com/Junaid-Dawar-88',
-    href: 'https://github.com/Junaid-Dawar-88',
+    label: "Email",
+    value: "junaidiqbal.dev88@gmail.com",
+    href: "mailto:junaidiqbal.dev88@gmail.com",
   },
   {
-    icon: 'in',
-    label: 'LINKEDIN',
-    value: 'linkedin.com/in/junaidiqbal',
-    href: 'https://www.linkedin.com/in/junaid-iqbal-854813384/',
+    label: "GitHub",
+    value: "Junaid-Dawar-88",
+    href: "https://github.com/Junaid-Dawar-88",
   },
   {
-    icon: '✉',
-    label: 'EMAIL',
-    value: 'junaidiqbal.dev88@gmail.com',
-    href: 'mailto:junaidiqbal.dev88@gmail.com',
+    label: "LinkedIn",
+    value: "Junaid Iqbal",
+    href: "https://www.linkedin.com/in/junaid-iqbal-854813384/",
   },
   {
-    icon: '⌾',
-    label: 'WHATSAPP',
-    value: '+92 331 5995496',
-    href: 'https://wa.me/923315995496',
+    label: "WhatsApp",
+    value: "+92 331 5995496",
+    href: "https://wa.me/923315995496",
   },
-]
+];
 
-const monoFont = "'Courier New', monospace"
+const trackPointer = (e: React.MouseEvent<HTMLElement>) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+};
 
-const ContactCard = ({ item }: { item: (typeof contacts)[number] }) => {
-  const external = !item.href.startsWith('mailto:')
+const Footer = () => (
+  <footer className="border-t border-line">
+    <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
+      <Reveal className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20" gap={0.09}>
+        {/* The ask */}
+        <div>
+          <RevealItem variant="riseSm">
+            <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.22em] text-jade">
+              <StarMark size={11} />
+              Contact
+            </p>
+          </RevealItem>
 
-  return (
-    <a
-      href={item.href}
-      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="reveal group relative flex items-center gap-4 overflow-hidden border p-4 no-underline transition duration-300 hover:-translate-y-1"
-      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-alt)' }}
-    >
-      {/* Accent bar — slides in on hover */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-0.75 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
-        style={{ backgroundColor: 'var(--accent)' }}
-      />
+          <RevealItem as="h2" className="mt-5 font-display text-[clamp(2.5rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance text-chalk">
+            Let&apos;s build something
+            <span className="text-jade"> worth shipping.</span>
+          </RevealItem>
 
-      {/* Icon tile */}
-      <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center text-sm font-bold transition-colors duration-300 group-hover:bg-(--accent) group-hover:text-white"
-        style={{
-          backgroundColor: 'var(--bg-soft)',
-          color: 'var(--text-muted)',
-          fontFamily: monoFont,
-          borderRadius: '3px',
-        }}
-      >
-        {item.icon}
-      </span>
+          <RevealItem as="p" variant="riseSm" className="mt-6 max-w-md text-lg leading-relaxed text-pretty text-mist">
+            I&apos;m open to full-time roles and freelance projects — and happy
+            to talk through an idea before it becomes either one.
+          </RevealItem>
 
-      {/* Label + value */}
-      <span className="min-w-0 flex-1">
-        <span
-          className="mb-1 block text-xs uppercase"
-          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.15em' }}
-        >
-          {item.label}
-        </span>
-        <span
-          className="block truncate text-sm"
-          style={{ color: 'var(--text)', fontFamily: 'Georgia, serif' }}
-        >
-          {item.value}
-        </span>
-      </span>
-
-      {/* Hover arrow */}
-      <span
-        aria-hidden="true"
-        className="shrink-0 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
-        style={{ color: 'var(--text-faint)', fontFamily: monoFont }}
-      >
-        →
-      </span>
-    </a>
-  )
-}
-
-const Footer = () => {
-  return (
-    <footer
-      className="w-full border-t"
-      style={{ backgroundColor: 'var(--bg)', borderColor: 'var(--border)', fontFamily: 'Georgia, serif' }}
-    >
-      <div className="flex min-h-140 flex-col md:flex-row">
-
-        {/* CTA panel */}
-        <div
-          className="reveal flex flex-1 flex-col justify-center border-b px-8 py-16 sm:px-12 md:border-b-0 md:border-r md:px-16 md:py-20"
-          style={{ borderColor: 'var(--border)' }}
-        >
-          <p
-            className="mb-6 text-xs"
-            style={{ color: 'var(--accent)', fontFamily: monoFont, letterSpacing: '0.2em' }}
-          >
-            04 — GET IN TOUCH
-          </p>
-
-          <h2
-            className="mb-8 font-bold leading-none text-balance"
-            style={{ fontSize: 'clamp(44px, 7vw, 88px)' }}
-          >
-            <span style={{ color: 'var(--text)', display: 'block' }}>Let&apos;s build</span>
-            <span style={{ color: 'var(--text)', display: 'block' }}>something</span>
-            <span style={{ color: 'var(--accent)', fontStyle: 'italic', display: 'block' }}>
-              great.
-            </span>
-          </h2>
-
-          <p
-            className="mb-10 text-sm leading-relaxed text-pretty"
-            style={{ color: 'var(--text-muted)', maxWidth: '380px' }}
-          >
-            I am open to full-time roles, freelance projects, or just a
-            conversation about web development. Do not hesitate to reach out.
-          </p>
-
-          {/* Availability + primary CTA */}
-          <div className="flex flex-wrap items-center gap-4">
+          <RevealItem className="mt-10 flex flex-wrap items-center gap-4">
             <a
               href="mailto:junaidiqbal.dev88@gmail.com"
-              className="group inline-flex items-center gap-3 px-6 py-3.5 text-xs font-bold tracking-widest no-underline transition-opacity duration-300 hover:opacity-85"
-              style={{
-                backgroundColor: 'var(--accent)',
-                color: '#fff',
-                fontFamily: monoFont,
-                letterSpacing: '0.12em',
-              }}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-jade px-7 py-3.5 font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85"
             >
-              SEND A MESSAGE
-              <span className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none">
+              Send a message
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
             </a>
-            <span
-              className="inline-flex items-center gap-2 text-xs"
-              style={{ color: 'var(--text-muted)', fontFamily: monoFont, letterSpacing: '0.08em' }}
-            >
-              <span className="h-2 w-2 rounded-full bg-[#27ae60]" />
-              Available for work
+            <span className="inline-flex items-center gap-2.5 font-mono text-xs text-mist">
+              <span className="h-2 w-2 rounded-full bg-jade" />
+              Usually replies within a day
             </span>
-          </div>
+          </RevealItem>
         </div>
 
-        {/* Contact channels */}
-        <div
-          className="flex flex-col justify-center gap-3 px-8 py-12 sm:px-12 md:px-16 md:py-20"
-          style={{ minWidth: 'min(100%, 480px)', maxWidth: '520px' }}
-        >
-          <p
-            className="reveal mb-2 text-xs uppercase"
-            style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.18em' }}
-          >
-            Direct channels
-          </p>
-          {contacts.map((item) => (
-            <ContactCard key={item.label} item={item} />
+        {/* The channels */}
+        <div className="flex flex-col gap-3">
+          {channels.map((channel) => (
+            <RevealItem key={channel.label} variant="riseSm">
+              <motion.a
+                href={channel.href}
+                {...(channel.href.startsWith("mailto:")
+                  ? {}
+                  : { target: "_blank", rel: "noopener noreferrer" })}
+                onMouseMove={trackPointer}
+                whileHover={{ x: 6 }}
+                transition={{ duration: 0.3, ease }}
+                className="spotlight group relative flex items-center justify-between gap-6 overflow-hidden rounded-2xl border border-line bg-surface/60 px-6 py-5 transition-colors duration-300 hover:border-jade/45"
+              >
+                <span className="relative min-w-0">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
+                    {channel.label}
+                  </span>
+                  <span className="mt-1.5 block truncate text-[15px] font-medium text-chalk">
+                    {channel.value}
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="relative shrink-0 text-mist transition-all duration-300 group-hover:translate-x-1 group-hover:text-jade"
+                >
+                  →
+                </span>
+              </motion.a>
+            </RevealItem>
           ))}
         </div>
-      </div>
+      </Reveal>
+    </div>
 
-      {/* Bottom bar */}
-      <div
-        className="flex flex-col items-center justify-between gap-2 border-t px-8 py-5 sm:flex-row sm:px-12 md:px-16"
-        style={{ borderColor: 'var(--border)' }}
-      >
-        <p
-          className="text-center text-xs sm:text-left"
-          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.1em' }}
-        >
-          © 2025 Junaid Iqbal — All rights reserved
-        </p>
-        <p
-          className="text-center text-xs sm:text-right"
-          style={{ color: 'var(--text-faint)', fontFamily: monoFont, letterSpacing: '0.1em' }}
-        >
-          Designed &amp; Built with passion
+    <div className="border-t border-line">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 font-mono text-xs text-faint sm:flex-row sm:px-8">
+        <p>© {new Date().getFullYear()} Junaid Iqbal</p>
+        <p className="flex items-center gap-2">
+          Built with Next.js in Peshawar
+          <StarMark size={9} className="text-jade" />
         </p>
       </div>
-    </footer>
-  )
-}
+    </div>
+  </footer>
+);
 
-export default Footer
+export default Footer;

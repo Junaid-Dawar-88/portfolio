@@ -325,9 +325,9 @@ const CVPage = () => {
 
   return (
     <div
-      className="min-h-screen px-4 py-10 sm:py-16"
+      className="min-h-screen px-4 pb-16 pt-28 sm:pt-32"
       style={{
-        backgroundColor: "var(--bg)",
+        backgroundColor: "var(--canvas)",
         fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
       }}
     >
@@ -335,8 +335,8 @@ const CVPage = () => {
       <div className="mx-auto mb-7 flex max-w-[900px] items-center justify-between gap-4">
         <Link
           href="/"
-          className="text-[11px] uppercase tracking-[0.18em] transition-colors"
-          style={{ color: "var(--text-muted)" }}
+          className="text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-jade"
+          style={{ color: "var(--mist)" }}
         >
           ← Back to portfolio
         </Link>

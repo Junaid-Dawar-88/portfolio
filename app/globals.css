@@ -1,67 +1,122 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Jewel Lattice — design tokens
+   Dark is the default canvas; light is the alternate.
+   ============================================================ */
 :root {
-  /* Light theme (default) */
-  color-scheme: light;
-  --bg: #f5f0e8;
-  --bg-alt: #f0ebe1;
-  --bg-soft: #ede8de;
-  --text: #1a1a1a;
-  --text-body: #333333;
-  --text-muted: #5a5a5a;
-  --text-faint: #8a8a8a;
-  --border: #d4c9b8;
-  --border-soft: #e8e2d8;
-  --surface-invert: #1a1a1a;
-  --on-invert: #f5f0e8;
-  --accent: #c0392b;
-  --accent-2: #c4440a;
-  /* Translucent surface for the glass header (re-resolves per theme) */
-  --bg-glass: color-mix(in srgb, var(--bg) 82%, transparent);
+  color-scheme: dark;
+
+  --canvas: #080b16;
+  --surface: #0f1426;
+  --surface-2: #161d33;
+  --line: #232c49;
+  --line-soft: #1a2138;
+
+  --chalk: #e8ecf6;
+  --mist: #8d9ab8;
+  --faint: #5b678a;
+
+  --jade: #33d9a6;
+  --marigold: #f2a93b;
+  --lapis: #5b7cfa;
+
+  --on-jade: #04231a;
+
+  --glass: color-mix(in srgb, var(--canvas) 72%, transparent);
+  --halo: color-mix(in oklab, var(--jade) 18%, transparent);
 }
 
-.dark {
-  /* Dark theme (warm charcoal — keeps the editorial feel) */
-  color-scheme: dark;
-  --bg: #16120d;
-  --bg-alt: #1e1810;
-  --bg-soft: #221c13;
-  --text: #f0e9da;
-  --text-body: #c8bfac;
-  --text-muted: #9a9080;
-  --text-faint: #726955;
-  --border: #342d22;
-  --border-soft: #2a2419;
-  --surface-invert: #f0e9da;
-  --on-invert: #16120d;
-  --accent: #d4513c;
-  --accent-2: #e0651f;
+.light {
+  color-scheme: light;
+
+  --canvas: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef1f8;
+  --line: #dde2ee;
+  --line-soft: #e9edf6;
+
+  --chalk: #0b1020;
+  --mist: #5a6688;
+  --faint: #8b96b0;
+
+  --jade: #0e9e76;
+  --marigold: #b9740a;
+  --lapis: #3b57d6;
+
+  --on-jade: #ffffff;
+
+  --glass: color-mix(in srgb, var(--canvas) 74%, transparent);
+  --halo: color-mix(in oklab, var(--jade) 12%, transparent);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-chalk: var(--chalk);
+  --color-mist: var(--mist);
+  --color-faint: var(--faint);
+  --color-jade: var(--jade);
+  --color-marigold: var(--marigold);
+  --color-lapis: var(--lapis);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--canvas);
+  color: var(--chalk);
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  /* Ambient jewel wash — anchors the dark canvas so it doesn't read as flat black */
+  background-image:
+    radial-gradient(
+      ellipse 70% 50% at 12% -5%,
+      color-mix(in oklab, var(--lapis) 16%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 92% 8%,
+      color-mix(in oklab, var(--jade) 12%, transparent),
+      transparent
+    );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
-/* Smooth theme transition across the whole project */
+::selection {
+  background: var(--jade);
+  color: var(--on-jade);
+}
+
+/* Keyboard focus stays visible everywhere */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Theme swap should feel like a dissolve, not a jump */
 html,
 body,
 header,
 footer,
-aside,
 main,
 section,
 article,
+aside,
 div,
 span,
 a,
@@ -69,108 +124,85 @@ p,
 h1,
 h2,
 h3 {
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
+  transition: background-color 0.35s ease, color 0.35s ease,
+    border-color 0.35s ease;
 }
 
-/* ============================================================
-   Motion — entrance & scroll-reveal animations
-   Animates only compositor-friendly properties (opacity, translate).
-   ============================================================ */
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes anim-rise {
-    from {
-      opacity: 0;
-      translate: 0 1.75rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-
-  @keyframes anim-rise-sm {
-    from {
-      opacity: 0;
-      translate: 0 0.75rem;
-    }
-  }
-
-  @keyframes anim-fade {
-    from {
-      opacity: 0;
-    }
-  }
-
-  /* Entrance animations — run once on page load */
-  .anim-rise {
-    animation: anim-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  }
-
-  .anim-rise-sm {
-    animation: anim-rise-sm 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  }
-
-  .anim-fade {
-    animation: anim-fade 0.9s ease backwards;
-  }
-
-  /* Stagger delays — pair with an entrance class */
-  .anim-d1 { animation-delay: 0.08s; }
-  .anim-d2 { animation-delay: 0.16s; }
-  .anim-d3 { animation-delay: 0.24s; }
-  .anim-d4 { animation-delay: 0.32s; }
-  .anim-d5 { animation-delay: 0.40s; }
-  .anim-d6 { animation-delay: 0.48s; }
-
-  /* Scroll-reveal — progressive enhancement. Browsers without
-     scroll-driven animation support simply show content as-is. */
-  @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    .reveal {
-      animation: anim-rise auto linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 38%;
-    }
-
-    .reveal-fade {
-      animation: anim-fade auto linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 30%;
-    }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
 /* ============================================================
-   Skill bento tiles — lift + accent glow on hover
+   Utilities
    ============================================================ */
-.skill-tile {
-  translate: 0;
-  transition: translate 0.28s ease, box-shadow 0.28s ease,
-    border-color 0.28s ease;
+
+/* Hairline that fades at both ends — used as section rules */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--line) 12%,
+    var(--line) 88%,
+    transparent
+  );
 }
 
-.skill-tile:hover {
-  border-color: var(--accent);
-  box-shadow: 0 18px 40px -14px color-mix(in oklab, var(--accent) 45%, transparent);
+/* Pointer-tracked spotlight. Cards set --mx/--my on mousemove. */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    var(--halo),
+    transparent 70%
+  );
+  pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .skill-tile:hover {
-    translate: 0 -5px;
+.spotlight:hover::before,
+.spotlight:focus-within::before {
+  opacity: 1;
+}
+
+/* Outlined display type — echoes the lattice's stroke language.
+   Guarded so unsupported browsers keep the solid, readable fill. */
+.stroked {
+  color: var(--jade);
+}
+
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .stroked {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--jade);
   }
-}
 
-/* Header scroll-progress bar — tracks the document scroll.
-   User-driven (not autonomous motion); degrades to hidden when unsupported. */
-@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
-  @keyframes scroll-progress {
-    from {
-      transform: scaleX(0);
+  @media (min-width: 640px) {
+    .stroked {
+      -webkit-text-stroke-width: 3px;
     }
-    to {
-      transform: scaleX(1);
-    }
   }
+}
 
-  .scroll-progress {
-    transform-origin: left;
-    animation: scroll-progress auto linear both;
-    animation-timeline: scroll(root);
-  }
+/* Marquee gets soft edges rather than a hard cut */
+.edge-fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
 }
