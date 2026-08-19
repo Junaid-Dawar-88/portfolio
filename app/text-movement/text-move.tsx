@@ -1,47 +1,63 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { StarMark } from "../components/lattice";
+import { PrismMark } from "../components/aurora";
+import { marqueeStack } from "../lib/data";
 
-const stack = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "Prisma",
-  "PostgreSQL",
-  "tRPC",
-  "Tailwind CSS",
-  "React Native",
-  "Tauri",
-  "Better Auth",
-  "Zod",
-];
+/**
+ * Two counter-running rails of the stack. The animation lives in CSS
+ * rather than JS so it stays off the main thread, and it stops entirely
+ * under prefers-reduced-motion (see globals.css).
+ */
+const Rail = ({
+  items,
+  direction,
+  duration,
+  muted,
+}: {
+  items: string[];
+  direction: "left" | "right";
+  duration: string;
+  muted?: boolean;
+}) => (
+  <div className="edge-fade overflow-hidden py-4">
+    <div
+      className="marquee-track"
+      data-direction={direction}
+      style={{ ["--marquee-duration" as string]: duration }}
+    >
+      {/* Two copies so the track loops seamlessly at -50%. */}
+      {[...items, ...items].map((tech, i) => (
+        <span key={i} className="flex shrink-0 items-center gap-7 px-7">
+          <span
+            className={`whitespace-nowrap font-display text-lg font-semibold sm:text-xl ${
+              muted ? "text-faint" : "text-dim"
+            }`}
+          >
+            {tech}
+          </span>
+          <PrismMark size={10} className="text-iris" />
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 const TextMove = () => {
-  const reduced = useReducedMotion();
-  // Two copies so the track can loop seamlessly at -50%.
-  const track = [...stack, ...stack];
+  const half = Math.ceil(marqueeStack.length / 2);
 
   return (
-    <div className="border-y border-line bg-surface/40">
-      <div className="edge-fade overflow-hidden py-5">
-        <motion.div
-          className="flex w-max"
-          animate={reduced ? undefined : { x: ["0%", "-50%"] }}
-          transition={{ duration: 34, ease: "linear", repeat: Infinity }}
-        >
-          {track.map((tech, i) => (
-            <span key={i} className="flex shrink-0 items-center gap-8 px-8">
-              <span className="font-display text-xl font-semibold whitespace-nowrap text-mist sm:text-2xl">
-                {tech}
-              </span>
-              <StarMark size={9} className="text-jade" />
-            </span>
-          ))}
-        </motion.div>
-      </div>
+    <div
+      aria-hidden="true"
+      className="divide-y divide-edge-soft border-y border-edge bg-panel/40"
+    >
+      <Rail items={marqueeStack.slice(0, half)} direction="left" duration="46s" />
+      <Rail
+        items={marqueeStack.slice(half)}
+        direction="right"
+        duration="58s"
+        muted
+      />
     </div>
   );
 };
