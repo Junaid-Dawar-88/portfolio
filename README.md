@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Junaid Iqbal — Portfolio
 
-## Getting Started
+Personal site and CV for [Junaid Iqbal](https://github.com/Junaid-Dawar-88), full stack
+developer in Peshawar, Pakistan.
 
-First, run the development server:
+**Live:** https://junaid-dawar-portfolio.vercel.app
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+| Layer     | Technology                              |
+| --------- | --------------------------------------- |
+| Framework | Next.js 16 (App Router), React 19        |
+| Language  | TypeScript 5                             |
+| Styling   | Tailwind CSS 4 with a CSS-variable token layer |
+| Motion    | Motion (`motion/react`) + CSS scroll-driven animation |
+| Fonts     | Sora, Instrument Serif, Inter, JetBrains Mono (`next/font`) |
+| PDF       | jsPDF — the CV generates itself in the browser |
+| Package manager | pnpm                               |
+
+## Design
+
+The visual system is **Aurora Editorial**: a warm near-black canvas lit by three
+accents — iris, aqua and flare — over a film-grain texture. Light mode is warm
+paper rather than clinical white. Every colour is a CSS custom property defined
+once in [`app/globals.css`](app/globals.css) and exposed to Tailwind through
+`@theme inline`, so the whole palette can be retuned from one block.
+
+Notes on the implementation:
+
+- **Content entrances run in JS** (Motion's `whileInView`) so they work in every
+  engine. Native CSS scroll-driven animation (`animation-timeline: view()`) is
+  used only for decoration — the drifting quote card and the growing rail in the
+  "How I work" section — behind an `@supports` guard, so browsers without it
+  simply see the static version.
+- **Motion is opt-out.** `prefers-reduced-motion: reduce` stops the marquee, the
+  ribbon drift and every transition.
+- **`color-scheme` is declared in the viewport export**, so the browser themes
+  its own scrollbars and form controls before first paint, and an inline script
+  applies the stored theme before hydration to avoid a flash.
+- **Typography** uses `text-wrap: balance` on headings and `text-wrap: pretty` on
+  body copy, scoped rather than global — both algorithms cost more than the
+  default greedy wrap.
+
+## Content
+
+Projects, stack and CV data all come from one module,
+[`app/lib/data.ts`](app/lib/data.ts). The site and the generated PDF read the same
+objects, so they cannot drift apart. Each project's tech list reflects what the
+repository actually ships.
+
+To add a project, append to `projects` in that file — the filter counts, the
+featured grid and the index list all derive from it.
+
+## Structure
+
+```
+app/
+├─ lib/data.ts          profile, skills, projects, CV content
+├─ lib/motion.ts        shared easing and variants
+├─ globals.css          design tokens, signature surfaces, keyframes
+├─ components/          aurora graphics, reveal, section heading, theme toggle
+├─ header/              nav with active-section tracking + scroll progress
+├─ hero/                name, portrait, counters
+├─ text-movement/       counter-running stack marquee
+├─ approach/            how-I-work rail and pull quote
+├─ skills/              bento grid of the stack
+├─ select-project/      filterable featured grid + project index
+├─ footer/              contact
+└─ cv/                  CV sheet and the jsPDF generator
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running it
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+pnpm dev        # http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm build      # production build
+pnpm lint       # eslint
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Vercel. pnpm is the only package manager used — do not add a
+`package-lock.json` or `yarn.lock`, as a second lockfile breaks the Vercel build.
