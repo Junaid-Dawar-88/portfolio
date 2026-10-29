@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   motion,
   AnimatePresence,
@@ -14,13 +15,15 @@ import { StarMark } from "../components/lattice";
 import { ease } from "../lib/motion";
 
 const navItems = [
-  { label: "About", href: "/#about" },
-  { label: "Stack", href: "/#skills" },
-  { label: "Work", href: "/#projects" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/about" },
+  { label: "Stack", href: "/stack" },
+  { label: "Work", href: "/work" },
+  { label: "Contact", href: "/contact" },
+  { label: "CV", href: "/cv" },
 ];
 
 const Header = () => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [lifted, setLifted] = useState(false);
 
@@ -64,26 +67,34 @@ const Header = () => {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 md:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="group relative px-4 py-2 text-sm text-mist transition-colors hover:text-chalk"
-              >
-                {item.label}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-4 bottom-1 h-px origin-left scale-x-0 bg-jade transition-transform duration-300 ease-out group-hover:scale-x-100"
-                />
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative px-3 py-2 text-sm transition-colors lg:px-4 hover:text-chalk ${
+                    active ? "text-chalk" : "text-mist"
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-3 bottom-1 h-px lg:inset-x-4 origin-left bg-jade transition-transform duration-300 ease-out group-hover:scale-x-100 ${
+                      active ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-2.5">
             <ThemeToggle />
 
             <Link
-              href="/#contact"
+              href="/contact"
               className="hidden rounded-full bg-jade px-5 py-2.5 text-sm font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85 sm:inline-block"
             >
               Get in touch
@@ -135,7 +146,10 @@ const Header = () => {
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="block border-b border-line-soft py-3.5 text-base text-chalk"
+                      aria-current={pathname === item.href ? "page" : undefined}
+                      className={`block border-b border-line-soft py-3.5 text-base ${
+                        pathname === item.href ? "text-jade" : "text-chalk"
+                      }`}
                     >
                       {item.label}
                     </Link>

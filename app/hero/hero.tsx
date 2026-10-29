@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import Lattice from "../components/lattice";
+import Tilt3D from "../components/tilt-3d";
 import { ease, stagger, rise, riseSm } from "../lib/motion";
+import { gsap, SplitText, useGSAP, gsapEase, motionOK } from "../lib/gsap";
 
 const facts = [
   { label: "Based in", value: "Peshawar, PK" },
@@ -16,6 +18,29 @@ const facts = [
 const Hero = () => {
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll();
+  const nameRef = useRef<HTMLHeadingElement>(null);
+
+  // GSAP: the name assembles letter by letter, each flipping up in 3D.
+  useGSAP(() => {
+    gsap.set(nameRef.current, { autoAlpha: 1 });
+    gsap.matchMedia().add(motionOK, () => {
+      SplitText.create(nameRef.current, {
+        type: "chars",
+        autoSplit: true, // re-split once the display font swaps in
+        onSplit: (self) =>
+          gsap.from(self.chars, {
+            yPercent: 110,
+            rotateX: -90,
+            opacity: 0,
+            transformOrigin: "50% 100%",
+            duration: 1.1,
+            ease: gsapEase,
+            stagger: 0.045,
+            delay: 0.3,
+          }),
+      });
+    });
+  });
 
   // Lattice drifts slower than the content, so the hero gains depth on scroll.
   const latticeY = useTransform(scrollYProgress, [0, 0.25], ["0%", "18%"]);
@@ -53,14 +78,15 @@ const Hero = () => {
             Open to roles and freelance work
           </motion.p>
 
-          <motion.h1
-            variants={rise}
-            className="mt-7 font-display text-[clamp(3.25rem,11vw,7.5rem)] font-extrabold leading-[0.88] tracking-[-0.035em] text-chalk"
+          {/* Hidden until GSAP has split it, so letters never flash in whole first */}
+          <h1
+            ref={nameRef}
+            className="invisible mt-7 font-display text-[clamp(3.25rem,11vw,7.5rem)] font-extrabold leading-[0.88] tracking-[-0.035em] text-chalk perspective-midrange"
           >
             Junaid
             <br />
             <span className="stroked">Iqbal</span>
-          </motion.h1>
+          </h1>
 
           <motion.p
             variants={rise}
@@ -73,7 +99,7 @@ const Hero = () => {
 
           <motion.div variants={rise} className="mt-10 flex flex-wrap gap-3">
             <Link
-              href="/#projects"
+              href="/work"
               className="group inline-flex items-center gap-2.5 rounded-full bg-jade px-7 py-3.5 font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85"
             >
               See the work
@@ -112,33 +138,85 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.94, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.9, ease, delay: 0.35 }}
-          className="relative mx-auto w-full max-w-sm lg:max-w-none"
+          className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
-          <div className="relative overflow-hidden rounded-[28px] border border-line bg-surface p-2">
-            <Image
-              src="/junaid-iqbal.jpeg"
-              alt="Junaid Iqbal"
-              width={640}
-              height={760}
-              priority
-              sizes="(max-width: 1024px) 384px, 40vw"
-              className="h-auto w-full rounded-[20px] object-cover"
-            />
+          {/* Orbit — two tilted rings spinning in 3D behind the portrait */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-[-8%] -z-10 perspective-midrange"
+          >
+            {[
+              { tilt: 72, duration: 18, color: "var(--jade)" },
+              { tilt: -64, duration: 26, color: "var(--lapis)" },
+            ].map((ring) => (
+              <motion.div
+                key={ring.tilt}
+                style={{ rotateX: ring.tilt, transformStyle: "preserve-3d" }}
+                animate={reduced ? undefined : { rotateZ: 360 }}
+                transition={{ duration: ring.duration, ease: "linear", repeat: Infinity }}
+                className="absolute inset-0 rounded-full opacity-50"
+              >
+                <span
+                  className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full"
+                  style={{ background: ring.color, boxShadow: `0 0 18px ${ring.color}` }}
+                />
+                <span
+                  className="absolute inset-0 rounded-full border"
+                  style={{ borderColor: ring.color }}
+                />
+              </motion.div>
+            ))}
           </div>
 
-          {/* Floating chip — anchors the portrait to the jewel palette */}
+          {/* Idle float, then pointer-driven tilt on top of it */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.75 }}
-            className="absolute -bottom-5 left-6 rounded-2xl border border-line bg-surface-2/90 px-5 py-3 backdrop-blur-md"
+            animate={reduced ? undefined : { y: [0, -10, 0] }}
+            transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-faint">
-              Currently
-            </p>
-            <p className="mt-1 text-sm font-medium text-chalk">
-              Building with Next.js &amp; Prisma
-            </p>
+            <Tilt3D max={10} glare radius="28px">
+              <div
+                style={{ transformStyle: "preserve-3d" }}
+                className="relative rounded-[28px] border border-line bg-surface p-2 shadow-[0_40px_80px_-30px_var(--halo)]"
+              >
+                <Image
+                  src="/junaid-iqbal.png"
+                  alt="Junaid Iqbal, full stack developer, at a desk with code on screen"
+                  width={1254}
+                  height={1254}
+                  priority
+                  sizes="(max-width: 1024px) 448px, 40vw"
+                  className="h-auto w-full rounded-[20px] object-cover"
+                />
+
+                {/* Floating chips sit in front of the photo, so they parallax as it tilts */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease, delay: 0.75 }}
+                  style={{ transform: "translateZ(70px)" }}
+                  className="absolute -bottom-5 left-6 rounded-2xl border border-line bg-surface-2/90 px-5 py-3 backdrop-blur-md"
+                >
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-faint">
+                    Currently
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-chalk">
+                    Building with Next.js &amp; Prisma
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: -16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease, delay: 0.9 }}
+                  style={{ transform: "translateZ(50px)" }}
+                  className="absolute -right-2 -top-4 rounded-2xl sm:-right-4 border border-line bg-surface-2/90 px-4 py-2.5 backdrop-blur-md"
+                >
+                  <p className="font-mono text-xs font-medium text-jade">
+                    {"</>"} web · mobile · desktop
+                  </p>
+                </motion.div>
+              </div>
+            </Tilt3D>
           </motion.div>
         </motion.div>
       </motion.div>

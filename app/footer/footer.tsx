@@ -6,7 +6,7 @@ import { Reveal, RevealItem } from "../components/reveal";
 import { StarMark } from "../components/lattice";
 import { ease } from "../lib/motion";
 
-const channels = [
+export const channels = [
   {
     label: "Email",
     value: "junaidiqbal.dev88@gmail.com",
@@ -34,6 +34,53 @@ const trackPointer = (e: React.MouseEvent<HTMLElement>) => {
   e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
   e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
 };
+
+/** Every way to reach me, one card per channel. */
+export const ChannelList = () => (
+  <div className="flex flex-col gap-3">
+    {channels.map((channel) => (
+      <RevealItem key={channel.label} variant="riseSm">
+        <motion.a
+          href={channel.href}
+          {...(channel.href.startsWith("mailto:")
+            ? {}
+            : { target: "_blank", rel: "noopener noreferrer" })}
+          onMouseMove={trackPointer}
+          whileHover={{ x: 6 }}
+          transition={{ duration: 0.3, ease }}
+          className="spotlight group relative flex items-center justify-between gap-6 overflow-hidden rounded-2xl border border-line bg-surface/60 px-6 py-5 transition-colors duration-300 hover:border-jade/45"
+        >
+          <span className="relative min-w-0">
+            <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
+              {channel.label}
+            </span>
+            <span className="mt-1.5 block truncate text-[15px] font-medium text-chalk">
+              {channel.value}
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="relative shrink-0 text-mist transition-all duration-300 group-hover:translate-x-1 group-hover:text-jade"
+          >
+            →
+          </span>
+        </motion.a>
+      </RevealItem>
+    ))}
+  </div>
+);
+
+export const FooterBar = () => (
+  <div className="border-t border-line">
+    <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 font-mono text-xs text-faint sm:flex-row sm:px-8">
+      <p>© {new Date().getFullYear()} Junaid Iqbal</p>
+      <p className="flex items-center gap-2">
+        Built with Next.js in Peshawar
+        <StarMark size={9} className="text-jade" />
+      </p>
+    </div>
+  </div>
+);
 
 const Footer = () => (
   <footer className="border-t border-line">
@@ -76,49 +123,11 @@ const Footer = () => (
         </div>
 
         {/* The channels */}
-        <div className="flex flex-col gap-3">
-          {channels.map((channel) => (
-            <RevealItem key={channel.label} variant="riseSm">
-              <motion.a
-                href={channel.href}
-                {...(channel.href.startsWith("mailto:")
-                  ? {}
-                  : { target: "_blank", rel: "noopener noreferrer" })}
-                onMouseMove={trackPointer}
-                whileHover={{ x: 6 }}
-                transition={{ duration: 0.3, ease }}
-                className="spotlight group relative flex items-center justify-between gap-6 overflow-hidden rounded-2xl border border-line bg-surface/60 px-6 py-5 transition-colors duration-300 hover:border-jade/45"
-              >
-                <span className="relative min-w-0">
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
-                    {channel.label}
-                  </span>
-                  <span className="mt-1.5 block truncate text-[15px] font-medium text-chalk">
-                    {channel.value}
-                  </span>
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="relative shrink-0 text-mist transition-all duration-300 group-hover:translate-x-1 group-hover:text-jade"
-                >
-                  →
-                </span>
-              </motion.a>
-            </RevealItem>
-          ))}
-        </div>
+        <ChannelList />
       </Reveal>
     </div>
 
-    <div className="border-t border-line">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 font-mono text-xs text-faint sm:flex-row sm:px-8">
-        <p>© {new Date().getFullYear()} Junaid Iqbal</p>
-        <p className="flex items-center gap-2">
-          Built with Next.js in Peshawar
-          <StarMark size={9} className="text-jade" />
-        </p>
-      </div>
-    </div>
+    <FooterBar />
   </footer>
 );
 

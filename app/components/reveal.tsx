@@ -50,7 +50,7 @@ export const RevealItem = ({
   variant = "rise",
   as = "div",
 }: Omit<RevealProps, "delay" | "gap" | "as"> & {
-  as?: "div" | "li" | "article" | "p" | "h2";
+  as?: "div" | "li" | "article" | "p" | "h1" | "h2";
 }) => {
   const Component = motion[as];
 

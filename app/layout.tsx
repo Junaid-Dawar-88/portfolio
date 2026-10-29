@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { SITE_URL, site } from "./lib/site";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./header/header";
@@ -25,15 +26,67 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Junaid Iqbal — Full Stack Developer",
-  description:
-    "Full stack developer in Peshawar, Pakistan. Building fast, type-safe web, desktop, and mobile applications with Next.js, Node.js, Prisma, and PostgreSQL.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: site.title, template: `%s — ${site.name}` },
+  description: site.description,
+  keywords: site.keywords,
+  authors: [{ name: site.name, url: SITE_URL }],
+  creator: site.name,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Junaid Iqbal — Full Stack Developer",
-    description:
-      "Building fast, type-safe web, desktop, and mobile applications.",
     type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: site.name,
+    title: site.title,
+    description: site.description,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  category: "technology",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#080b16" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f7fb" },
+  ],
+};
+
+/* Structured data, so search engines know this site is a person's portfolio. */
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#person`,
+      name: site.name,
+      jobTitle: "Full Stack Developer",
+      url: SITE_URL,
+      image: `${SITE_URL}${site.image}`,
+      email: `mailto:${site.email}`,
+      address: { "@type": "PostalAddress", addressLocality: "Peshawar", addressCountry: "PK" },
+      sameAs: [site.github, site.linkedin],
+      knowsAbout: site.skills,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: site.name,
+      description: site.description,
+      publisher: { "@id": `${SITE_URL}/#person` },
+      inLanguage: "en",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -59,6 +112,10 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        />
         <Header />
         {children}
       </body>

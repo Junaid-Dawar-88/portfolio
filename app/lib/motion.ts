@@ -28,5 +28,7 @@ export const fade: Variants = {
   show: { opacity: 1, transition: { duration: 0.9, ease } },
 };
 
-/** Shared viewport config — fire once, slightly before fully in view. */
-export const inView = { once: true, amount: 0.2, margin: "0px 0px -80px 0px" };
+/** Shared viewport config — fire once, as soon as the group's top edge is 80px into view.
+ *  "some" rather than a fraction: on phones a stacked grid can be taller than the
+ *  screen, and a fractional threshold would then never be met. */
+export const inView = { once: true, amount: "some", margin: "0px 0px -80px 0px" } as const;

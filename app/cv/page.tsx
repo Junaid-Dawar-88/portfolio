@@ -39,10 +39,14 @@ const contact = [
 const skillGroups = [
   { label: "Frontend", items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js"] },
   { label: "Framework", items: ["Next.js", "App Router", "SSR / SSG"] },
-  { label: "Backend", items: ["Node.js", "REST APIs", "Better Auth"] },
-  { label: "Database", items: ["PostgreSQL", "Prisma ORM", "MongoDB", "SQL"] },
-  { label: "Styling", items: ["Tailwind CSS", "Bootstrap"] },
-  { label: "Desktop & AI", items: ["Tauri", "Prompt Engineering"] },
+  { label: "Backend", items: ["Node.js", "tRPC", "REST APIs", "Zod", "Better Auth"] },
+  { label: "Database", items: ["PostgreSQL", "Prisma ORM", "MongoDB", "SQLite"] },
+  { label: "Styling", items: ["Tailwind CSS", "shadcn/ui", "Bootstrap"] },
+  { label: "Cross platform", items: ["Tauri", "React Native"] },
+  {
+    label: "AI",
+    items: ["Prompt Engineering", "Vercel AI SDK", "OpenAI API", "LLM Integration", "Claude Code", "Cursor"],
+  },
   { label: "Tooling", items: ["Git", "GitHub", "Vercel", "VS Code", "Bun"] },
 ];
 
@@ -52,36 +56,36 @@ const languages = [
 ];
 
 const stats = [
-  { value: "12", label: "GitHub Repos" },
-  { value: "8+", label: "Projects Built" },
-  { value: "20+", label: "Technologies" },
+  { value: "17", label: "GitHub Repos" },
+  { value: "10+", label: "Projects Built" },
+  { value: "25+", label: "Technologies" },
 ];
 
 const projects = [
   {
+    name: "Life Star Hostel Management",
+    stack: "Next.js · tRPC · Prisma · Stripe · AI SDK",
+    desc: "Multi-tenant hostel management SaaS with Better Auth sign-in and 2FA, Stripe subscription billing, and a built-in AI assistant with streaming chat.",
+  },
+  {
     name: "Digital Invoicing",
-    stack: "Next.js · TypeScript · PostgreSQL",
-    desc: "A digital invoicing web app for generating invoices, managing clients and tracking payments, with a clean interface and fast, reliable delivery.",
+    stack: "Next.js · TypeScript · tRPC · PostgreSQL",
+    desc: "Generate invoices, manage clients and track payments in one place, on a type-safe tRPC layer so client and server never drift apart.",
+  },
+  {
+    name: "School System",
+    stack: "Next.js · Prisma · PostgreSQL · shadcn/ui",
+    desc: "Student, class and administration records for a school, with a polished shadcn/ui interface and a type-safe backend.",
   },
   {
     name: "E-Commerce Store",
-    stack: "Next.js · React · TypeScript · Prisma · PostgreSQL",
-    desc: "A full-featured e-commerce app with product browsing, cart management and a smooth checkout flow, built for an intuitive online shopping experience.",
-  },
-  {
-    name: "School System Ivory",
-    stack: "Next.js · Prisma · PostgreSQL",
-    desc: "A school management system to handle students, classes and administration data, with a polished interface and a strong type-safe backend.",
-  },
-  {
-    name: "XMP Delta",
-    stack: "Next.js · TypeScript · Tailwind",
-    desc: "A polished marketing site built to highlight product features and drive conversions, with strong visual hierarchy and modern responsive design.",
+    stack: "Next.js · React · Prisma · PostgreSQL",
+    desc: "Product browsing, cart management and a smooth checkout flow, with a responsive storefront tuned for fast first loads.",
   },
 ];
 
 const profile =
-  "Full stack developer specialising in modern JavaScript and TypeScript frameworks, with a passion for building clean, efficient and scalable web applications. Experienced across the stack — from responsive React interfaces to Node.js APIs and type-safe data layers with Prisma and PostgreSQL — and comfortable shipping cross-platform desktop apps with Tauri. Focused on maintainable code, strong UX and fast, reliable delivery.";
+  "Full stack developer specialising in modern JavaScript and TypeScript, building clean, efficient and scalable applications. Experienced across the stack — from responsive React interfaces to Node.js and tRPC APIs and type-safe data layers with Prisma and PostgreSQL — and comfortable shipping desktop apps with Tauri and mobile apps with React Native. Builds AI features with the Vercel AI SDK and OpenAI, and uses prompt engineering and AI coding tools to ship faster.";
 
 const education = {
   title: "Web & Software Development",
@@ -138,7 +142,7 @@ async function buildResumePdf() {
   const py = 36;
   try {
     const img = new window.Image();
-    img.src = "/junaid-iqbal.jpeg";
+    img.src = "/junaid-iqbal-cv.jpg";
     await new Promise<void>((res, rej) => {
       img.onload = () => res();
       img.onerror = () => rej(new Error("image"));
@@ -335,18 +339,24 @@ const CVPage = () => {
       <div className="mx-auto mb-7 flex max-w-[900px] items-center justify-between gap-4">
         <Link
           href="/"
-          className="text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-jade"
+          className="whitespace-nowrap text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-jade"
           style={{ color: "var(--mist)" }}
         >
-          ← Back to portfolio
+          ← Back<span className="hidden sm:inline"> to portfolio</span>
         </Link>
         <button
           onClick={handleDownload}
           disabled={busy}
-          className="group flex items-center gap-2.5 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all disabled:cursor-wait disabled:opacity-70"
+          className="group flex items-center gap-2.5 whitespace-nowrap px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all disabled:cursor-wait disabled:opacity-70 sm:px-6"
           style={{ backgroundColor: C.accent, color: "#fff" }}
         >
-          {busy ? "Generating…" : "Download CV (PDF)"}
+          {busy ? (
+            "Generating…"
+          ) : (
+            <>
+              Download CV<span className="hidden sm:inline"> (PDF)</span>
+            </>
+          )}
           <span
             className={
               busy
@@ -374,14 +384,14 @@ const CVPage = () => {
         >
           {/* Photo */}
           <div
-            className="mx-auto mb-8 w-[150px] p-[3px] sm:w-full"
+            className="mx-auto mb-8 w-full max-w-[300px] p-[3px] sm:max-w-none"
             style={{ border: `2.5px solid ${C.accent}` }}
           >
             <Image
-              src="/junaid-iqbal.jpeg"
-              alt="Junaid Iqbal"
-              width={240}
-              height={240}
+              src="/junaid-iqbal-cv.jpg"
+              alt="Junaid Iqbal, full stack developer"
+              width={480}
+              height={480}
               priority
               className="aspect-square w-full object-cover"
             />

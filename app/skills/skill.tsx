@@ -82,7 +82,19 @@ const groups: Group[] = [
       { name: "Vercel", core: false },
       { name: "Bun", core: true },
       { name: "VS Code", core: false },
-      { name: "AI integration", core: false },
+    ],
+  },
+  {
+    category: "AI",
+    note: "Prompts and LLM features that hold up in production",
+    span: "",
+    technologies: [
+      { name: "Prompt Engineering", core: true },
+      { name: "Vercel AI SDK", core: true },
+      { name: "OpenAI API", core: false },
+      { name: "Streaming chat", core: false },
+      { name: "Claude Code", core: false },
+      { name: "Cursor", core: false },
     ],
   },
 ];
@@ -106,9 +118,10 @@ const trackPointer = (e: React.MouseEvent<HTMLElement>) => {
   e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
 };
 
-const Skills = () => (
+const Skills = ({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) => (
   <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
     <SectionHeading
+      as={headingAs}
       eyebrow="The stack"
       title={
         <>
