@@ -60,7 +60,7 @@ const Header = () => {
                 Junaid Iqbal
               </span>
               <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-faint">
-                Full stack developer
+                Freelance developer
               </span>
             </span>
           </Link>
@@ -97,7 +97,7 @@ const Header = () => {
               href="/contact"
               className="hidden rounded-full bg-jade px-5 py-2.5 text-sm font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85 sm:inline-block"
             >
-              Get in touch
+              Hire me
             </Link>
 
             {/* Mobile menu trigger */}

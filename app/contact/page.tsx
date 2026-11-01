@@ -7,7 +7,7 @@ import { FooterBar } from "../footer/footer";
 export const metadata: Metadata = pageMeta(
   "/contact",
   "Contact",
-  "Hire Junaid Iqbal for a full-time role or freelance project — send a message, or reach out by email, GitHub, LinkedIn or WhatsApp.",
+  "Hire Junaid Iqbal for your website, online store or app — send a message, or reach out by email or WhatsApp. Replies within 24 hours.",
 );
 
 const ContactPage = () => (

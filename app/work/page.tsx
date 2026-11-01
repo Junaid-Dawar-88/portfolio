@@ -7,7 +7,7 @@ import Footer from "../footer/footer";
 export const metadata: Metadata = pageMeta(
   "/work",
   "Work",
-  "Projects by Junaid Iqbal — an AI-powered hostel management SaaS, a school management system, invoicing, e-commerce, and Node.js command-line tools.",
+  "Live projects by Junaid Iqbal — an e-commerce store, a hostel management SaaS, a school management system, invoicing and more, with demos and source code.",
 );
 
 const WorkPage = () => (

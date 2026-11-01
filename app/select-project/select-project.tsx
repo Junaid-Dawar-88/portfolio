@@ -1,20 +1,22 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import SectionHeading from "../components/section-heading";
 import { Reveal, RevealItem } from "../components/reveal";
-import Tilt3D from "../components/tilt-3d";
 import { ease } from "../lib/motion";
 
 type Project = {
   title: string;
   kind: string;
-  summary: string;
+  /** One line: the problem the project solves for its users. */
+  problem: string;
   techs: string[];
   live?: string;
   source?: string;
-  featured?: boolean;
+  /** Screenshot in /public/projects, 1280×640. Projects without one render as compact cards. */
+  image?: string;
 };
 
 const GITHUB = "https://github.com/Junaid-Dawar-88";
@@ -22,136 +24,168 @@ const GITHUB = "https://github.com/Junaid-Dawar-88";
 const projects: Project[] = [
   {
     title: "Life Star Hostel Management",
-    kind: "Full stack · SaaS",
-    summary:
-      "A multi-tenant hostel management platform with organisations, email, Google and two-factor sign-in through Better Auth, Stripe subscription billing, and a built-in AI assistant with streaming chat.",
-    techs: ["Next.js", "tRPC", "Prisma", "PostgreSQL", "Better Auth", "Stripe", "Vercel AI SDK"],
+    kind: "SaaS · Business app",
+    problem:
+      "Hostel owners run rooms, residents, bookings and billing from one dashboard instead of paper registers, with Stripe subscriptions and an AI assistant built in.",
+    techs: ["Next.js", "tRPC", "Prisma", "PostgreSQL", "Stripe", "Vercel AI SDK"],
     live: "https://life-star-hostel-management.vercel.app",
     source: `${GITHUB}/life-star-hostel-management`,
-    featured: true,
-  },
-  {
-    title: "Digital Invoicing",
-    kind: "Full stack · Productivity",
-    summary:
-      "Generate invoices, manage clients, and track payments in one place. Built around a type-safe tRPC layer so the client and server never drift apart.",
-    techs: ["Next.js", "TypeScript", "tRPC", "Zod", "PostgreSQL"],
-    live: "https://digital-invoicing.vercel.app/",
-    featured: true,
-  },
-  {
-    title: "School System",
-    kind: "Full stack · Education",
-    summary:
-      "Student, class, and administration records for a school, backed by Prisma and PostgreSQL with a shadcn/ui interface staff can learn in a day.",
-    techs: ["Next.js", "Prisma", "PostgreSQL", "shadcn/ui"],
-    live: "https://school-system-ivory.vercel.app/",
-    featured: true,
+    image: "/projects/hostel.png",
   },
   {
     title: "E-Commerce Store",
-    kind: "Full stack · Commerce",
-    summary:
-      "Product browsing, cart, and checkout with a responsive storefront tuned for fast first loads.",
+    kind: "E-commerce",
+    problem:
+      "A shoe shop gets a fast online storefront where customers browse, add to cart and check out in seconds on any phone.",
     techs: ["Next.js", "React", "Prisma", "PostgreSQL"],
     live: "https://e-commerce-web-gamma-two.vercel.app",
-    featured: true,
+    source: `${GITHUB}/e-commerce-web`,
+    image: "/projects/ecommerce.png",
   },
   {
-    title: "MMA Orpin",
-    kind: "Frontend · Landing page",
-    summary:
-      "A bold, responsive landing page built to make the service offering legible at a glance.",
+    title: "School Management System",
+    kind: "Web app · Education",
+    problem:
+      "Admins, teachers and parents share one platform for classes, attendance and complaints, replacing scattered spreadsheets and phone calls.",
+    techs: ["Next.js", "Prisma", "PostgreSQL", "shadcn/ui"],
+    live: "https://school-system-ivory.vercel.app/",
+    source: `${GITHUB}/school-system`,
+    image: "/projects/school.png",
+  },
+  {
+    title: "MMA Fighter Management",
+    kind: "Web app · Sports",
+    problem:
+      "Promoters, managers and fighters handle events, matchmaking and signed contracts in one secure platform instead of email threads.",
     techs: ["Next.js", "TypeScript", "Tailwind CSS"],
     live: "https://mma-orpin.vercel.app/",
-    featured: true,
+    image: "/projects/mma.png",
+  },
+  {
+    title: "Digital Invoicing",
+    kind: "Business app · Finance",
+    problem:
+      "Small businesses create invoices, manage clients and track payments in one place, so nothing slips through the cracks.",
+    techs: ["Next.js", "TypeScript", "tRPC", "Zod", "PostgreSQL"],
+    live: "https://digital-invoicing.vercel.app/",
+    image: "/projects/invoicing.png",
   },
   {
     title: "XMP Delta",
-    kind: "Frontend · Marketing",
-    summary:
-      "A marketing site organised around visual hierarchy — features first, conversion close behind.",
+    kind: "Business app",
+    problem:
+      "A secure, account-based business workspace with email and Google or Microsoft single sign-on, so teams log in with what they already use.",
     techs: ["Next.js", "TypeScript", "Tailwind CSS"],
     live: "https://xmp-delta.vercel.app/",
-    featured: true,
+    image: "/projects/xmp.png",
   },
   {
     title: "Hospital Management",
     kind: "Backend · Node CLI",
-    summary:
-      "Patients, doctors and appointments managed from an interactive terminal menu, with controllers over a Prisma data layer.",
+    problem: "Patients, doctors and appointments managed from an interactive terminal menu over a Prisma data layer.",
     techs: ["Node.js", "TypeScript", "Prisma"],
     source: `${GITHUB}/Hospital-Management-System`,
   },
   {
     title: "Book Library",
     kind: "Full stack · Bun",
-    summary:
-      "Track books, members and borrowing records in a React app served by Bun, stored in SQLite through Prisma.",
-    techs: ["Bun", "React", "Tailwind CSS", "Prisma", "SQLite"],
+    problem: "Books, members and borrowing records tracked in a React app served by Bun and stored in SQLite.",
+    techs: ["Bun", "React", "Prisma", "SQLite"],
     source: `${GITHUB}/Book-Library-Managment`,
   },
   {
     title: "Pet Adoption Center",
     kind: "Backend · Node CLI",
-    summary:
-      "Register pets, record adoptions and search the shelter from the command line, persisted in SQLite.",
+    problem: "Register pets, record adoptions and search the shelter from the command line.",
     techs: ["Node.js", "SQLite"],
     source: `${GITHUB}/Pet_Adoption_Center_Manager`,
   },
 ];
 
-const trackPointer = (e: React.MouseEvent<HTMLElement>) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-};
+const featured = projects.filter((p) => p.image);
+const smaller = projects.filter((p) => !p.image);
 
-const ProjectCard = ({ project }: { project: Project }) => (
-  <RevealItem as="article" className={project.featured ? "lg:col-span-3" : "lg:col-span-2"}>
-    <Tilt3D max={6} glare className="h-full">
-      <motion.a
-        href={project.live ?? project.source}
+const ProjectLinks = ({ project }: { project: Project }) => (
+  <div className="mt-auto flex flex-wrap gap-2.5 pt-7">
+    {project.live && (
+      <a
+        href={project.live}
         target="_blank"
         rel="noopener noreferrer"
-        onMouseMove={trackPointer}
-        whileHover={{ y: -6 }}
-        transition={{ duration: 0.32, ease }}
-        className="spotlight group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/60 p-7 transition-colors duration-300 hover:border-jade/45 sm:p-9"
+        aria-label={`Live demo of ${project.title} (opens in a new tab)`}
+        className="group/link inline-flex items-center gap-2 rounded-full bg-jade px-5 py-2.5 text-sm font-semibold text-(--on-jade) transition-opacity hover:opacity-85"
       >
-        <div className="relative flex flex-1 flex-col">
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-jade">
-            {project.kind}
-          </p>
+        Live demo
+        <span className="transition-transform duration-300 group-hover/link:translate-x-0.5">↗</span>
+      </a>
+    )}
+    {project.source && (
+      <a
+        href={project.source}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Source code of ${project.title} on GitHub (opens in a new tab)`}
+        className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-chalk transition-colors hover:border-jade hover:text-jade"
+      >
+        GitHub
+      </a>
+    )}
+  </div>
+);
 
-          <h3 className="mt-4 font-display text-2xl font-bold tracking-tight text-chalk sm:text-3xl">
-            {project.title}
-          </h3>
+const Techs = ({ techs }: { techs: string[] }) => (
+  <ul className="mt-5 flex flex-wrap gap-2" aria-label="Tech stack">
+    {techs.map((tech) => (
+      <li
+        key={tech}
+        className="rounded-full border border-line bg-surface-2/60 px-3 py-1 font-mono text-xs text-mist"
+      >
+        {tech}
+      </li>
+    ))}
+  </ul>
+);
 
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-pretty text-mist">
-            {project.summary}
-          </p>
+const ProjectCard = ({ project }: { project: Project }) => (
+  <RevealItem as="article" className="h-full">
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.32, ease }}
+      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/60 transition-[border-color,box-shadow] duration-300 hover:border-jade/45 hover:shadow-[0_30px_60px_-30px_var(--halo)]"
+    >
+      <div className="relative aspect-2/1 overflow-hidden border-b border-line bg-surface-2">
+        <Image
+          src={project.image!}
+          alt={`Screenshot of ${project.title}`}
+          width={1280}
+          height={640}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        />
+      </div>
 
-          <ul className="mt-7 flex flex-wrap gap-2">
-            {project.techs.map((tech) => (
-              <li
-                key={tech}
-                className="rounded-full border border-line bg-surface-2/60 px-3 py-1 font-mono text-xs text-mist"
-              >
-                {tech}
-              </li>
-            ))}
-          </ul>
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-jade">{project.kind}</p>
+        <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-chalk">
+          {project.title}
+        </h3>
+        <p className="mt-3 text-[15px] leading-relaxed text-pretty text-mist">{project.problem}</p>
+        <Techs techs={project.techs} />
+        <ProjectLinks project={project} />
+      </div>
+    </motion.div>
+  </RevealItem>
+);
 
-          <span className="mt-auto flex items-center gap-2 pt-8 text-sm font-semibold text-chalk">
-            {project.live ? "Visit the live site" : "View the source"}
-            <span className="transition-transform duration-300 group-hover:translate-x-1.5">
-              →
-            </span>
-          </span>
-        </div>
-      </motion.a>
-    </Tilt3D>
+const CompactCard = ({ project }: { project: Project }) => (
+  <RevealItem as="article" className="h-full">
+    <div className="flex h-full flex-col rounded-3xl border border-line bg-surface/40 p-6 transition-colors duration-300 hover:border-jade/45">
+      <p className="font-mono text-xs uppercase tracking-[0.16em] text-faint">{project.kind}</p>
+      <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-chalk">{project.title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-pretty text-mist">{project.problem}</p>
+      <Techs techs={project.techs} />
+      <ProjectLinks project={project} />
+    </div>
   </RevealItem>
 );
 
@@ -162,19 +196,27 @@ const SelectProject = ({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) => {
     <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
       <SectionHeading
         as={headingAs}
-        eyebrow="Selected work"
+        eyebrow="Projects"
         title={
           <>
-            {projects.length} projects, from SaaS to{" "}
-            <span className="text-marigold">the command line</span>
+            Real products, <span className="text-marigold">live and running</span>
           </>
         }
-        lede="Live cards open the running app; the rest open the source on GitHub — no screenshots standing in for working software."
+        lede="Each featured project is deployed — click Live demo to try it yourself, or GitHub to see how it's built."
       />
 
-      <Reveal className="grid gap-4 lg:grid-cols-6" gap={0.09}>
-        {projects.map((project) => (
+      <Reveal className="grid gap-5 md:grid-cols-2 lg:grid-cols-3" gap={0.08}>
+        {featured.map((project) => (
           <ProjectCard key={project.title} project={project} />
+        ))}
+      </Reveal>
+
+      <p className="mt-16 mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
+        Smaller builds &amp; practice projects
+      </p>
+      <Reveal className="grid gap-4 md:grid-cols-3" gap={0.07}>
+        {smaller.map((project) => (
+          <CompactCard key={project.title} project={project} />
         ))}
       </Reveal>
 

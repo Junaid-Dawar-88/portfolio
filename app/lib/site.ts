@@ -8,12 +8,16 @@ export const SITE_URL = (
 
 export const site = {
   name: "Junaid Iqbal",
-  title: "Junaid Iqbal — Full Stack Developer",
+  title: "Junaid Iqbal — Freelance Web, App & E-commerce Developer",
   description:
-    "Junaid Iqbal is a full stack developer in Peshawar, Pakistan, building fast, type-safe web, desktop and mobile apps with Next.js, React, Node.js, tRPC, Prisma, PostgreSQL and AI.",
+    "I build e-commerce stores, web apps, mobile apps and business software for small businesses and startups — fast, mobile-friendly and delivered on time. Next.js, React, Node.js and PostgreSQL.",
   email: "junaidiqbal.dev88@gmail.com",
   github: "https://github.com/Junaid-Dawar-88",
   linkedin: "https://www.linkedin.com/in/junaid-iqbal-854813384/",
+  /* Paste your Freelancer.com profile URL here (e.g. https://www.freelancer.com/u/your-username).
+     While it's empty, the Freelancer.com link stays hidden everywhere. */
+  freelancer: "",
+  whatsapp: { display: "+92 331 5995496", number: "923315995496" },
   image: "/junaid-iqbal.png",
   keywords: [
     "Junaid Iqbal",
@@ -33,6 +37,10 @@ export const site = {
     "AI developer",
     "prompt engineering",
     "freelance developer",
+    "freelance web developer",
+    "e-commerce website developer",
+    "business application developer",
+    "mobile app developer",
     "hire web developer",
   ],
   skills: [
@@ -50,6 +58,22 @@ export const site = {
     "Prompt Engineering",
   ],
 };
+
+/** WhatsApp click-to-chat link, with an opening line already typed for the visitor. */
+export const whatsappLink = (
+  text = "Hi Junaid, I found your portfolio and I'd like to discuss a project.",
+) => `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(text)}`;
+
+/** Every way to reach me, in the order clients should see them. */
+export const channels = [
+  { label: "Email", value: site.email, href: `mailto:${site.email}` },
+  { label: "WhatsApp", value: site.whatsapp.display, href: whatsappLink() },
+  ...(site.freelancer
+    ? [{ label: "Freelancer.com", value: "Hire me on Freelancer", href: site.freelancer }]
+    : []),
+  { label: "GitHub", value: "Junaid-Dawar-88", href: site.github },
+  { label: "LinkedIn", value: "Junaid Iqbal", href: site.linkedin },
+];
 
 /** Per-page metadata: title, description, canonical URL and matching share card text. */
 export const pageMeta = (path: string, title: string, description: string): Metadata => ({

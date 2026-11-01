@@ -10,9 +10,9 @@ import { ease, stagger, rise, riseSm } from "../lib/motion";
 import { gsap, SplitText, useGSAP, gsapEase, motionOK } from "../lib/gsap";
 
 const facts = [
-  { label: "Based in", value: "Peshawar, PK" },
-  { label: "Focus", value: "Type-safe full stack" },
-  { label: "Ships to", value: "Web, desktop, mobile" },
+  { label: "I build", value: "Stores, web & mobile apps" },
+  { label: "Replies", value: "Within 24 hours" },
+  { label: "Based in", value: "Peshawar, PK · GMT+5" },
 ];
 
 const Hero = () => {
@@ -20,22 +20,22 @@ const Hero = () => {
   const { scrollYProgress } = useScroll();
   const nameRef = useRef<HTMLHeadingElement>(null);
 
-  // GSAP: the name assembles letter by letter, each flipping up in 3D.
+  // GSAP: the headline assembles word by word, each flipping up in 3D.
   useGSAP(() => {
     gsap.set(nameRef.current, { autoAlpha: 1 });
     gsap.matchMedia().add(motionOK, () => {
       SplitText.create(nameRef.current, {
-        type: "chars",
+        type: "words",
         autoSplit: true, // re-split once the display font swaps in
         onSplit: (self) =>
-          gsap.from(self.chars, {
-            yPercent: 110,
-            rotateX: -90,
+          gsap.from(self.words, {
+            yPercent: 60,
+            rotateX: -70,
             opacity: 0,
             transformOrigin: "50% 100%",
-            duration: 1.1,
+            duration: 1,
             ease: gsapEase,
-            stagger: 0.045,
+            stagger: 0.06,
             delay: 0.3,
           }),
       });
@@ -49,7 +49,7 @@ const Hero = () => {
 
   return (
     <section
-      id="about"
+      id="top"
       className="relative isolate overflow-clip px-5 pb-24 pt-32 sm:px-8 sm:pb-32 sm:pt-40 lg:pt-44"
     >
       {/* Signature lattice */}
@@ -75,43 +75,42 @@ const Hero = () => {
               <span className="absolute h-2 w-2 animate-ping rounded-full bg-jade opacity-60" />
               <span className="h-2 w-2 rounded-full bg-jade" />
             </span>
-            Open to roles and freelance work
+            Junaid Iqbal · Available for freelance projects
           </motion.p>
 
-          {/* Hidden until GSAP has split it, so letters never flash in whole first */}
+          {/* Hidden until GSAP has split it, so words never flash in whole first */}
           <h1
             ref={nameRef}
-            className="invisible mt-7 font-display text-[clamp(3.25rem,11vw,7.5rem)] font-extrabold leading-[0.88] tracking-[-0.035em] text-chalk perspective-midrange"
+            className="invisible mt-7 font-display text-[clamp(2.6rem,6.4vw,5.25rem)] font-extrabold leading-[0.98] tracking-[-0.03em] text-balance text-chalk perspective-midrange"
           >
-            Junaid
-            <br />
-            <span className="stroked">Iqbal</span>
+            Websites, apps &amp; online stores{" "}
+            <span className="text-jade">that win you customers</span>
           </h1>
 
           <motion.p
             variants={rise}
-            className="mt-8 max-w-lg text-lg leading-relaxed text-pretty text-mist"
+            className="mt-8 max-w-xl text-lg leading-relaxed text-pretty text-mist"
           >
-            I build full stack products end to end — type-safe APIs, fast
-            interfaces, and the database schema underneath. Next.js and Node on
-            the web, Tauri on the desktop, React Native on mobile.
+            I help small businesses and startups launch fast, mobile-friendly
+            e-commerce sites, web apps, mobile apps and business tools — built
+            properly, explained clearly, and delivered on time.
           </motion.p>
 
           <motion.div variants={rise} className="mt-10 flex flex-wrap gap-3">
             <Link
-              href="/work"
+              href="#contact"
               className="group inline-flex items-center gap-2.5 rounded-full bg-jade px-7 py-3.5 font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85"
             >
-              See the work
+              Hire Me
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
             </Link>
             <Link
-              href="/cv"
+              href="#projects"
               className="inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 font-semibold text-chalk transition-colors hover:border-jade hover:text-jade"
             >
-              Download CV
+              View Projects
             </Link>
           </motion.div>
 

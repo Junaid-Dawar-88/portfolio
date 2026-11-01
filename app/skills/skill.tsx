@@ -9,90 +9,71 @@ import { ease } from "../lib/motion";
 type Group = {
   category: string;
   note: string;
-  span: string;
   technologies: { name: string; core: boolean }[];
 };
 
 const groups: Group[] = [
   {
     category: "Frontend",
-    note: "Interfaces that stay fast as they grow",
-    span: "sm:col-span-2",
+    note: "Fast, responsive interfaces",
     technologies: [
       { name: "React", core: true },
       { name: "Next.js", core: true },
       { name: "TypeScript", core: true },
-      { name: "App Router", core: false },
-      { name: "SSR / SSG", core: false },
+      { name: "Tailwind CSS", core: true },
+      { name: "shadcn/ui", core: false },
       { name: "JavaScript", core: false },
-      { name: "HTML5", core: false },
-      { name: "CSS3", core: false },
+      { name: "HTML & CSS", core: false },
     ],
   },
   {
     category: "Backend",
-    note: "Type-safe from route to query",
-    span: "",
+    note: "Secure APIs, auth and payments",
     technologies: [
       { name: "Node.js", core: true },
       { name: "tRPC", core: true },
       { name: "REST APIs", core: false },
       { name: "Better Auth", core: false },
+      { name: "Stripe", core: false },
       { name: "Zod", core: false },
     ],
   },
   {
-    category: "Data",
-    note: "Schema first, migrations always",
-    span: "",
+    category: "Database",
+    note: "Data modelled to grow with you",
     technologies: [
       { name: "PostgreSQL", core: true },
       { name: "Prisma ORM", core: true },
       { name: "MongoDB", core: false },
-      { name: "SQL", core: false },
       { name: "SQLite", core: false },
     ],
   },
   {
-    category: "Cross platform",
-    note: "One codebase, desktop and mobile",
-    span: "",
+    category: "Mobile & desktop",
+    note: "One codebase, every device",
     technologies: [
-      { name: "Tauri", core: true },
       { name: "React Native", core: true },
-    ],
-  },
-  {
-    category: "Styling",
-    note: "Design systems, not one-off CSS",
-    span: "",
-    technologies: [
-      { name: "Tailwind CSS", core: true },
-      { name: "shadcn/ui", core: true },
-      { name: "Bootstrap", core: false },
-    ],
-  },
-  {
-    category: "Tooling",
-    note: "Ship, measure, iterate",
-    span: "sm:col-span-2",
-    technologies: [
-      { name: "Git", core: true },
-      { name: "GitHub", core: false },
-      { name: "Vercel", core: false },
-      { name: "Bun", core: true },
-      { name: "VS Code", core: false },
+      { name: "Tauri", core: true },
     ],
   },
   {
     category: "AI",
-    note: "Prompts and LLM features that hold up in production",
-    span: "",
+    note: "Chatbots and smart features",
     technologies: [
-      { name: "Prompt Engineering", core: true },
       { name: "Vercel AI SDK", core: true },
-      { name: "OpenAI API", core: false },
+      { name: "OpenAI API", core: true },
+      { name: "Prompt Engineering", core: false },
       { name: "Streaming chat", core: false },
+    ],
+  },
+  {
+    category: "Tools",
+    note: "Ship, measure, iterate",
+    technologies: [
+      { name: "Git & GitHub", core: true },
+      { name: "Vercel", core: true },
+      { name: "Bun", core: false },
+      { name: "VS Code", core: false },
       { name: "Claude Code", core: false },
       { name: "Cursor", core: false },
     ],
@@ -122,7 +103,7 @@ const Skills = ({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) => (
   <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
     <SectionHeading
       as={headingAs}
-      eyebrow="The stack"
+      eyebrow="Skills"
       title={
         <>
           Tools I reach for, and{" "}
@@ -134,7 +115,7 @@ const Skills = ({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) => (
 
     <Reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" gap={0.07}>
       {groups.map((group) => (
-        <RevealItem key={group.category} as="article" className={group.span}>
+        <RevealItem key={group.category} as="article">
           <motion.div
             onMouseMove={trackPointer}
             whileHover={{ y: -5 }}

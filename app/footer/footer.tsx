@@ -5,29 +5,7 @@ import { motion } from "motion/react";
 import { Reveal, RevealItem } from "../components/reveal";
 import { StarMark } from "../components/lattice";
 import { ease } from "../lib/motion";
-
-export const channels = [
-  {
-    label: "Email",
-    value: "junaidiqbal.dev88@gmail.com",
-    href: "mailto:junaidiqbal.dev88@gmail.com",
-  },
-  {
-    label: "GitHub",
-    value: "Junaid-Dawar-88",
-    href: "https://github.com/Junaid-Dawar-88",
-  },
-  {
-    label: "LinkedIn",
-    value: "Junaid Iqbal",
-    href: "https://www.linkedin.com/in/junaid-iqbal-854813384/",
-  },
-  {
-    label: "WhatsApp",
-    value: "+92 331 5995496",
-    href: "https://wa.me/923315995496",
-  },
-];
+import { channels, site, whatsappLink } from "../lib/site";
 
 const trackPointer = (e: React.MouseEvent<HTMLElement>) => {
   const rect = e.currentTarget.getBoundingClientRect();
@@ -96,24 +74,32 @@ const Footer = () => (
           </RevealItem>
 
           <RevealItem as="h2" className="mt-5 font-display text-[clamp(2.5rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance text-chalk">
-            Let&apos;s build something
-            <span className="text-jade"> worth shipping.</span>
+            Have a project in mind?
+            <span className="text-jade"> Let&apos;s build it.</span>
           </RevealItem>
 
           <RevealItem as="p" variant="riseSm" className="mt-6 max-w-md text-lg leading-relaxed text-pretty text-mist">
-            I&apos;m open to full-time roles and freelance projects — and happy
-            to talk through an idea before it becomes either one.
+            Tell me what you need and I&apos;ll come back with questions, a
+            timeline and a quote — no obligation.
           </RevealItem>
 
           <RevealItem className="mt-10 flex flex-wrap items-center gap-4">
             <a
-              href="mailto:junaidiqbal.dev88@gmail.com"
+              href={`mailto:${site.email}`}
               className="group inline-flex items-center gap-2.5 rounded-full bg-jade px-7 py-3.5 font-semibold text-[var(--on-jade)] transition-opacity hover:opacity-85"
             >
-              Send a message
+              Hire me
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
+            </a>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 font-semibold text-chalk transition-colors hover:border-jade hover:text-jade"
+            >
+              WhatsApp
             </a>
             <span className="inline-flex items-center gap-2.5 font-mono text-xs text-mist">
               <span className="h-2 w-2 rounded-full bg-jade" />

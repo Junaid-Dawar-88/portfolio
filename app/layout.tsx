@@ -3,6 +3,7 @@ import { SITE_URL, site } from "./lib/site";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./header/header";
+import WhatsAppButton from "./components/whatsapp-button";
 
 /* Display — characterful grotesque, used only for names and section titles */
 const bricolage = Bricolage_Grotesque({
@@ -69,12 +70,12 @@ const jsonLd = {
       "@type": "Person",
       "@id": `${SITE_URL}/#person`,
       name: site.name,
-      jobTitle: "Full Stack Developer",
+      jobTitle: "Freelance Full Stack Developer",
       url: SITE_URL,
       image: `${SITE_URL}${site.image}`,
       email: `mailto:${site.email}`,
       address: { "@type": "PostalAddress", addressLocality: "Peshawar", addressCountry: "PK" },
-      sameAs: [site.github, site.linkedin],
+      sameAs: [site.github, site.linkedin, site.freelancer].filter(Boolean),
       knowsAbout: site.skills,
     },
     {
@@ -118,6 +119,7 @@ export default function RootLayout({
         />
         <Header />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

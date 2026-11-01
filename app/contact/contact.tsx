@@ -3,11 +3,13 @@
 import React, { useState } from "react";
 import SectionHeading from "../components/section-heading";
 import { Reveal, RevealItem } from "../components/reveal";
-import { ChannelList, channels } from "../footer/footer";
+import { ChannelList } from "../footer/footer";
+import { ChatIcon } from "../components/whatsapp-button";
+import { site, whatsappLink } from "../lib/site";
 
-const EMAIL = channels.find((channel) => channel.label === "Email")!.value;
+const EMAIL = site.email;
 
-const topics = ["Full-time role", "Freelance project", "Just saying hello"];
+const topics = ["New website or app", "E-commerce store", "Fix or improve a site", "Something else"];
 
 const field =
   "mt-2 w-full rounded-2xl border border-line bg-surface/60 px-5 py-3.5 text-[15px] text-chalk placeholder:text-faint transition-colors focus:border-jade focus:outline-none";
@@ -15,7 +17,7 @@ const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-faint";
 
 type Status = { state: "idle" | "sending" | "sent" } | { state: "error"; message: string };
 
-const Contact = () => {
+const Contact = ({ headingAs = "h1" }: { headingAs?: "h1" | "h2" }) => {
   const [topic, setTopic] = useState(topics[0]);
   const [status, setStatus] = useState<Status>({ state: "idle" });
 
@@ -45,14 +47,14 @@ const Contact = () => {
   return (
     <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
       <SectionHeading
-        as="h1"
+        as={headingAs}
         eyebrow="Contact"
         title={
           <>
-            Let&apos;s build something <span className="text-jade">worth shipping</span>
+            Let&apos;s talk about <span className="text-jade">your project</span>
           </>
         }
-        lede="I'm open to full-time roles and freelance projects, and happy to talk through an idea before it becomes either one. I usually reply within a day."
+        lede="Tell me what you need and I'll reply within 24 hours with questions, a rough timeline and a quote. Prefer to chat? Message me on WhatsApp."
       />
 
       <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
@@ -107,7 +109,7 @@ const Contact = () => {
                   required
                   rows={6}
                   className={`${field} resize-y`}
-                  placeholder="What are you building, and where could I help?"
+                  placeholder="What do you need built? Any deadline or budget in mind?"
                 />
               </label>
             </RevealItem>
@@ -156,6 +158,17 @@ const Contact = () => {
         <Reveal as="section" gap={0.07}>
           <RevealItem as="p" variant="riseSm" className={`${label} mb-4`}>
             Or reach me directly
+          </RevealItem>
+          <RevealItem variant="riseSm" className="mb-3">
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2.5 rounded-2xl bg-[#25D366] px-6 py-4 font-semibold text-[#05301a] transition-opacity hover:opacity-90"
+            >
+              <ChatIcon className="h-5 w-5" />
+              Chat on WhatsApp
+            </a>
           </RevealItem>
           <ChannelList />
         </Reveal>
